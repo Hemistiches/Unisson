@@ -1047,6 +1047,8 @@ var VERDICT = {
   aucun:["Pas de collaboration à ce jour","Rien à corriger : rien ne se fait encore. Le test vous sera utile le jour où un projet se dessine."]
 };
 var DEV = {corruption:"prévention de la corruption", controle:"contrôle ou enquête en cours", signalement:"traitement d'un signalement", pays:"plusieurs pays", regularisation:"régularisation d'opérations passées"};
+var NIV = {limite:"Limité", modere:"Modéré", eleve:"Élevé"}, BARS = {limite:1, modere:3, eleve:5};
+function meter(k){ var n = BARS[k], h = '<div class="meter" aria-hidden="true">'; for(var i=0;i<5;i++) h += '<i class="'+(i<n?'on':'')+'"></i>'; return h+'</div>'; }
 var PAL = {limite:["Suivi limité","trois heures"], regulier:["Suivi régulier","six heures"], renforce:["Suivi renforcé","dix heures au niveau d'entrée"]};
 var BRQ = {cadeaux:["Politique cadeaux et invitations","Vous offrez des cadeaux ou des invitations à d'autres interlocuteurs, sans règle écrite."],
   intermediaires:["Intermédiaires et partenaires","Vos intermédiaires ne sont pas évalués, ou pas de manière documentée."],
@@ -1158,11 +1160,12 @@ var LOGO = "";
 
 var RESULT = null;
 function report(){
-  var a = actives(), r = D.orienter(a), f = D.drapeaux(a), keys = D.points(a), V = VERDICT[r.profil], P = plan(r, f), pr = priorites(keys);
-  RESULT = {r:r, keys:keys, P:P, V:V};
+  var a = actives(), r = D.orienter(a), f = D.drapeaux(a), keys = D.points(a), V = VERDICT[r.profil], P = plan(r, f), pr = priorites(keys), ind = D.indicateurs(a);
+  RESULT = {r:r, keys:keys, P:P, V:V, ind:ind};
   var today = new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
   var html = '<div class="report-head"><p class="label">Votre résultat</p><h3>'+esc(V[0])+'</h3><p class="price">'+esc(V[1])+'</p>'+
     '<p class="compl">'+esc(explication(r, f))+'</p>'+
+    (ind ? '<p class="meta" style="margin-top:22px">'+esc("Indicateurs de situation")+'</p>'+'<div class="levels">'+'<div class="lv"><b>'+esc("Fragilité des pratiques")+'</b><span>'+esc(NIV[ind.frag])+'</span>'+meter(ind.frag)+'<p>'+esc("Qualification, conventions, justification, suivi et traçabilité.")+'</p></div>'+'<div class="lv"><b>'+esc("Exposition")+'</b><span>'+esc(NIV[ind.expo])+'</span>'+meter(ind.expo)+'<p>'+esc("Ce qui se verrait le jour où il faut justifier une collaboration.")+'</p></div>'+'<div class="lv"><b>'+esc("Intensité des relations")+'</b><span>'+esc(NIV[ind.intens])+'</span>'+meter(ind.intens)+'<p>'+esc("Indicatif : le nombre et le rythme de vos collaborations, qui commandent l'effort d'encadrement.")+'</p></div>'+'</div>' : '')+
     '<p class="meta">'+esc("Établi le "+today+(profilLabel()?" · "+profilLabel():""))+'</p></div>';
   if(pr.length){
     html += '<div class="rsec"><h4>Vos priorités</h4><ol class="parcours">'+pr.map(function(k){ return '<li><b>'+esc(VIG[k][0].replace(/\.$/,""))+'</b><p>'+esc(VIG[k][1])+'</p></li>'; }).join("")+'</ol></div>';
@@ -1230,6 +1233,7 @@ function summary(pourMoi){
   L.push("Unisson, par Hémistiches"); L.push("Relations avec les professionnels de santé · unisson.hemistiches.com"); L.push("");
   L.push("Résultat du "+today+(profilLabel()?"\nProfil : "+profilLabel():"")); L.push("");
   L.push(R.V[0]+"."); L.push(R.V[1]);
+  if(R.ind){ L.push(""); L.push("Indicateurs de situation"); L.push("– Fragilité des pratiques : "+NIV[R.ind.frag].toLowerCase()); L.push("– Exposition : "+NIV[R.ind.expo].toLowerCase()); L.push("– Intensité des relations : "+NIV[R.ind.intens].toLowerCase()); }
   var v = R.keys.filter(function(k){ return k!=="reserve"; }).map(function(k){ return VIG[k][0].replace(/\.$/,""); });
   if(v.length){ L.push(""); L.push("Points à vérifier"); v.forEach(function(x){ L.push("– "+x); }); }
   L.push(""); L.push("Orientation proposée (missions distinctes, chacune à son prix)");

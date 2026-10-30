@@ -8,7 +8,7 @@
      1. Tarifs (HT), arrêtés le 30 octobre 2026 (repère : environ 170 € de l'heure sur le temps moyen estimé).
      ============================================================ */
   var TARIFS = {
-    version: "2026-10-30c",
+    version: "2026-10-30d",
     consultation: { prix: 350, minutes: 45, deductionJours: 30 },
     collaboration: 500,        // un intervenant, une mission, une convention
     operation: 1000,           // plusieurs intervenants ou une organisation (comité, congrès, partenariat)
@@ -171,9 +171,27 @@
     if (a.besoin === "question" || rien) r.consultation = "principale";
 
     r.profil = r.operation && r.etat === "etabli" ? "operation"
-      : (r.etat === "a_clarifier" ? "clarifier" : (r.etat === "a_consolider" ? "consolider" : (r.suivi ? "appui" : (r.operation ? "operation" : "etabli"))));
+      : (r.etat === "a_clarifier" ? "clarifier" : (r.etat === "a_consolider" ? "consolider" : (r.suivi && (a.besoin === "appui" || !r.structuration) ? "appui" : (r.operation ? "operation" : "etabli"))));
     if (f.devis_controle) r.profil = "situation";
     return r;
+  }
+
+
+  /* Indicateurs de situation (30 octobre 2026) : trois niveaux qualitatifs, jamais une note.
+     Fragilité des pratiques : faiblesses déclarées (×2) et inconnues ; exposition : ce qui se verrait le jour où il faut justifier ;
+     intensité des relations : rythme et diversité des collaborations, qui commandent l'effort d'encadrement. */
+  function indicateurs(a) {
+    var f = drapeaux(a);
+    if (f.sans_collab) return null;
+    var frag = f.faibles * 2 + f.inconnues;
+    var expo = (f.urgent ? 3 : 0) + (f.sans_ecrit ? 2 : 0) + (f.partenaire_etat ? 1 : 0) + (f.justif_informelle ? 2 : 0) + (f.recon_impossible ? 2 : 0)
+      + (f.inter_informel ? 1 : 0) + (f.brique_alerte ? 2 : 0) + (f.brique_conflits ? 1 : 0) + (f.qualif_absente ? 1 : 0);
+    var intens = ({ rare: 1, reguliere: 2, frequente: 3, nsp: 1 })[a.frequence] || 1;
+    intens += f.nActeurs >= 3 ? 2 : (f.nActeurs >= 2 ? 1 : 0);
+    if ((a.operations || []).some(function (k) { return opt("operations", k).flags.indexOf("op_collective") > -1; })) intens += 1;
+    if (f.intermediaires) intens += 1;
+    function niv(v, m, e) { return v >= e ? "eleve" : (v >= m ? "modere" : "limite"); }
+    return { frag: niv(frag, 2, 4), expo: niv(expo, 2, 5), intens: niv(intens, 3, 5) };
   }
 
   /* Points à vérifier, dans l'ordre d'affichage. */
@@ -211,5 +229,5 @@
     return k;
   }
 
-  g.UNISSON = { TARIFS: TARIFS, Q: Q, palier: palier, complement: complement, parcours: parcours, drapeaux: drapeaux, orienter: orienter, points: points, cles: cles };
+  g.UNISSON = { TARIFS: TARIFS, Q: Q, palier: palier, complement: complement, parcours: parcours, drapeaux: drapeaux, orienter: orienter, indicateurs: indicateurs, points: points, cles: cles };
 })(typeof window !== "undefined" ? window : globalThis);
