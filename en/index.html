@@ -451,6 +451,14 @@ details.more b{font-weight:600;color:var(--ink)}
 .three.one{grid-template-columns:minmax(0,1fr)}
 .three.one p{max-width:70ch}
 .three.one ul,.three.one details.more{max-width:760px}
+/* Lisibilité (31 octobre 2026) : sur fond clair, rendu non aminci, gris secondaire plus soutenu, petits textes relevés ; fonds noirs inchangés */
+.coords a{overflow-wrap:anywhere} /* adresse électronique du pied : pas de débordement autour de 1 030 px */
+:root{--mute:#555555}
+body{-webkit-font-smoothing:auto;-moz-osx-font-smoothing:auto}
+.top,.drawer,.hero,.report-head,.cadre-s,.contact,.six article.dpo,.delegue-s{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.notice,.qmeta,.opt small,.qnote,.copied,.three .from,.three .range,.parcours .hyp,.budget p{font-size:15px}
+.small,.sources,.prio .kind{font-size:14px}
+.prio p,.compl,.three li,.dates p,.parcours p,.budget dt,details.more > div p,.rules > li > span,.cadre,.creds,.fonctions span,.check,.qhint{font-size:16px}
 </style>
 </head>
 <body>
@@ -1147,7 +1155,7 @@ function explication(r, f){
 }
 function priorites(keys){ return keys.filter(function(k){ return VIG[k] && VIG[k][2]===""; }).slice(0,3); }
 
-function carte(cls, titre){ return '<div class="print-only print-card'+cls+'"><div><div class="who">'+esc(titre)+'</div><div class="nm">Mᵉ François Césure</div><div class="rl">'+esc("Avocat at the Paris Bar")+'</div><div class="rl">'+esc("Hémistiches, 33, avenue Mac-Mahon, 75017 Paris, France")+'</div></div><div class="co">francois.cesure@hemistiches.com<br>+33 6 47 88 80 25<br>+33 1 45 03 20 20<br>www.hemistiches.com</div></div>'; }
+function carte(cls, titre){ return '<div class="print-only print-card'+cls+'"><div><div class="who">'+esc(titre)+'</div><div class="nm">Mᵉ François Césure</div><div class="rl">'+esc("Avocat at the Paris Bar")+'</div><div class="rl">'+esc("Hémistiches, 33, avenue Mac-Mahon, 75017 Paris, France")+'</div>'+(cls?'<div class=\"rl\">SIREN 833 468 358</div>':'')+'</div><div class="co">francois.cesure@hemistiches.com<br>+33 6 47 88 80 25<br>+33 1 45 03 20 20<br>www.hemistiches.com</div></div>'; }
 var LOGO = "";
 (function(){ var img = document.querySelector(".brand img"); if(!img) return;
   function noir(){ try{ var c = document.createElement("canvas"); c.width = img.naturalWidth; c.height = img.naturalHeight; var x = c.getContext("2d");
@@ -1162,13 +1170,12 @@ function report(){
   var html = '<div class="report-head"><p class="label">Your result</p><h3>'+esc(V[0])+'</h3><p class="price">'+esc(V[1])+'</p>'+
     '<p class="compl">'+esc(explication(r, f))+'</p>'+
     (ind ? '<p class="meta" style="margin-top:22px">'+esc("Situation indicators")+'</p>'+'<div class="levels">'+'<div class="lv"><b>'+esc("Fragility of practices")+'</b><span>'+esc(NIV[ind.frag])+'</span>'+meter(ind.frag)+'<p>'+esc("Qualification, agreements, justification, tracking and traceability.")+'</p></div>'+'<div class="lv"><b>'+esc("Exposure")+'</b><span>'+esc(NIV[ind.expo])+'</span>'+meter(ind.expo)+'<p>'+esc("What would show on the day a collaboration has to be justified.")+'</p></div>'+'<div class="lv"><b>'+esc("Intensity of interactions")+'</b><span>'+esc(NIV[ind.intens])+'</span>'+meter(ind.intens)+'<p>'+esc("Indicative: the number and pace of your collaborations, which drive the framing effort.")+'</p></div>'+'</div>' : '')+
-    '<p class="meta">'+esc("Issued on "+today+(profilLabel()?" · "+profilLabel():""))+'</p></div>';
-  if(pr.length){
-    html += '<div class="rsec"><h4>Your priorities</h4><ol class="parcours">'+pr.map(function(k){ return '<li><b>'+esc(VIG[k][0].replace(/\.$/,""))+'</b><p>'+esc(VIG[k][1])+'</p></li>'; }).join("")+'</ol></div>';
-  }
+    '<p class="meta">'+esc("As at "+today+(profilLabel()?" · "+profilLabel():""))+'</p></div>';
+  /* Same construction as Diapason: a single list, priorities first, each point qualified */
   var autres = keys.filter(function(k){ return pr.indexOf(k)<0; });
-  html += '<div class="rsec"><h4>'+esc(pr.length?"Other points to check":"Points to check")+'</h4><ul class="prio">';
-  autres.forEach(function(k){ var v = VIG[k]; var kind = v[2]==="info" ? "Point to clarify" : (v[2]==="good" ? "Finding" : "Declared practice");
+  html += '<div class="rsec"><h4>Your points of attention</h4><ul class="prio">';
+  pr.forEach(function(k){ html += '<li class="gap"><span class="kind">'+esc("Declared gap")+'</span><b>'+esc(VIG[k][0].replace(/\.$/,""))+'</b><p>'+esc(VIG[k][1])+'</p></li>'; });
+  autres.forEach(function(k){ var v = VIG[k]; var kind = v[2]==="info" ? "Point of method" : (v[2]==="good" ? "Finding" : "Declared gap");
     html += '<li class="'+(v[2]||'gap')+'"><span class="kind">'+esc(kind)+'</span><b>'+esc(v[0].replace(/\.$/,""))+'</b><p>'+esc(v[1])+'</p></li>'; });
   html += '</ul></div>';
 
@@ -1201,8 +1208,7 @@ function report(){
   html += '<p class="notice">'+esc("This result is generated automatically from your answers alone, without verification or review of documents. It is indicative information and constitutes neither legal advice, nor an opinion, nor a compliance certification. Amounts are starting prices excluding VAT; any engagement is subject to a fee agreement and a prior conflict-of-interest check.")+'</p>'+
     '<p class="sources">'+esc("Texts cited: French Public Health Code, articles L. 1453-1, L. 1453-3 and L. 1453-7; Law no. 2016-1691 of 9 December 2016, articles 8 and 17.")+'</p>'+
     '<div class="dnav" style="justify-content:flex-start"><button type="button" class="linkbtn" id="back">Review my answers</button><button type="button" class="linkbtn" id="restart">Take the test again</button></div>';
-  html = '<div class="print-only print-head"><span class="ph-logo">'+(LOGO?'<img src="'+LOGO+'" alt="Hémistiches.">':'<b>Hémistiches.</b>')+'<i aria-hidden="true"></i><span>Unisson</span></span><span>'+esc("Result issued on "+today)+'</span></div>'+carte('', "Your contact")+html+carte(' end', "To discuss this result")+
-    '<div class="print-only print-foot">'+esc("Mᵉ François Césure, avocat at the Paris Bar · Hémistiches, 33, avenue Mac-Mahon, 75017 Paris, France · francois.cesure@hemistiches.com · SIREN 833 468 358. Indicative orientation, subject to a conversation and a fee agreement.")+'</div>';
+  html = '<div class="print-only print-head"><span class="ph-logo">'+(LOGO?'<img src="'+LOGO+'" alt="Hémistiches.">':'<b>Hémistiches.</b>')+'<i aria-hidden="true"></i><span>Unisson</span></span><span>'+esc("Result issued on "+today)+'</span></div>'+carte('', "Your contact")+html+carte(' end', "To discuss this result");
   box.innerHTML = html;
   box.querySelectorAll("[data-view]").forEach(bindView);
   document.getElementById("pdf").onclick = function(){ try{ window.print(); }catch(e){} };
