@@ -1151,7 +1151,7 @@ function explication(r, f){
 }
 function priorites(keys){ return keys.filter(function(k){ return VIG[k] && VIG[k][2]===""; }).slice(0,3); }
 
-function carte(cls, titre){ return '<div class="print-only print-card'+cls+'"><div><div class="who">'+esc(titre)+'</div><div class="nm">Mᵉ François Césure</div><div class="rl">'+esc("Avocat au barreau de Paris")+'</div><div class="rl">'+esc("Hémistiches, 33, avenue Mac-Mahon, 75017 Paris")+'</div></div><div class="co">francois.cesure@hemistiches.com<br>+33 6 47 88 80 25<br>+33 1 45 03 20 20<br>www.hemistiches.com</div></div>'; }
+function carte(cls, titre){ return '<div class="print-only print-card'+cls+'"><div><div class="who">'+esc(titre)+'</div><div class="nm">Mᵉ François Césure</div><div class="rl">'+esc("Avocat au barreau de Paris")+'</div><div class="rl">'+esc("Hémistiches, 33, avenue Mac-Mahon, 75017 Paris")+'</div>'+(cls?'<div class=\"rl\">SIREN 833 468 358</div>':'')+'</div><div class="co">francois.cesure@hemistiches.com<br>+33 6 47 88 80 25<br>+33 1 45 03 20 20<br>www.hemistiches.com</div></div>'; }
 var LOGO = "";
 (function(){ var img = document.querySelector(".brand img"); if(!img) return;
   function noir(){ try{ var c = document.createElement("canvas"); c.width = img.naturalWidth; c.height = img.naturalHeight; var x = c.getContext("2d");
@@ -1204,8 +1204,7 @@ function report(){
   html += '<p class="notice">'+esc("Ce résultat est généré automatiquement à partir de vos seules réponses, sans vérification ni examen de pièces. Il constitue une information indicative et ne vaut ni consultation juridique, ni avis, ni certification de conformité. Les montants sont des prix d'entrée hors taxes ; toute mission fait l'objet d'une convention d'honoraires et d'une vérification préalable des conflits d'intérêts.")+'</p>'+
     '<p class="sources">'+esc("Textes cités : code de la santé publique, articles L. 1453-1, L. 1453-3 et L. 1453-7 ; loi n° 2016-1691 du 9 décembre 2016, articles 8 et 17.")+'</p>'+
     '<div class="dnav" style="justify-content:flex-start"><button type="button" class="linkbtn" id="back">Revoir mes réponses</button><button type="button" class="linkbtn" id="restart">Refaire le test</button></div>';
-  html = '<div class="print-only print-head"><span class="ph-logo">'+(LOGO?'<img src="'+LOGO+'" alt="Hémistiches.">':'<b>Hémistiches.</b>')+'<i aria-hidden="true"></i><span>Unisson</span></span><span>'+esc("Résultat établi le "+today)+'</span></div>'+carte('', "Votre interlocuteur")+html+carte(' end', "Pour échanger sur ce résultat")+
-    '<div class="print-only print-foot">'+esc("Mᵉ François Césure, avocat au barreau de Paris · Hémistiches, 33, avenue Mac-Mahon, 75017 Paris · francois.cesure@hemistiches.com · SIREN 833 468 358. Orientation indicative, sous réserve d'un échange et d'une convention d'honoraires.")+'</div>';
+  html = '<div class="print-only print-head"><span class="ph-logo">'+(LOGO?'<img src="'+LOGO+'" alt="Hémistiches.">':'<b>Hémistiches.</b>')+'<i aria-hidden="true"></i><span>Unisson</span></span><span>'+esc("Résultat établi le "+today)+'</span></div>'+carte('', "Votre interlocuteur")+html+carte(' end', "Pour échanger sur ce résultat");
   box.innerHTML = html;
   box.querySelectorAll("[data-view]").forEach(bindView);
   document.getElementById("pdf").onclick = function(){ try{ window.print(); }catch(e){} };
