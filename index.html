@@ -1166,13 +1166,12 @@ function report(){
   var html = '<div class="report-head"><p class="label">Votre résultat</p><h3>'+esc(V[0])+'</h3><p class="price">'+esc(V[1])+'</p>'+
     '<p class="compl">'+esc(explication(r, f))+'</p>'+
     (ind ? '<p class="meta" style="margin-top:22px">'+esc("Indicateurs de situation")+'</p>'+'<div class="levels">'+'<div class="lv"><b>'+esc("Fragilité des pratiques")+'</b><span>'+esc(NIV[ind.frag])+'</span>'+meter(ind.frag)+'<p>'+esc("Qualification, conventions, justification, suivi et traçabilité.")+'</p></div>'+'<div class="lv"><b>'+esc("Exposition")+'</b><span>'+esc(NIV[ind.expo])+'</span>'+meter(ind.expo)+'<p>'+esc("Ce qui se verrait le jour où il faut justifier une collaboration.")+'</p></div>'+'<div class="lv"><b>'+esc("Intensité des relations")+'</b><span>'+esc(NIV[ind.intens])+'</span>'+meter(ind.intens)+'<p>'+esc("Indicatif : le nombre et le rythme de vos collaborations, qui commandent l'effort d'encadrement.")+'</p></div>'+'</div>' : '')+
-    '<p class="meta">'+esc("Établi le "+today+(profilLabel()?" · "+profilLabel():""))+'</p></div>';
-  if(pr.length){
-    html += '<div class="rsec"><h4>Vos priorités</h4><ol class="parcours">'+pr.map(function(k){ return '<li><b>'+esc(VIG[k][0].replace(/\.$/,""))+'</b><p>'+esc(VIG[k][1])+'</p></li>'; }).join("")+'</ol></div>';
-  }
+    '<p class="meta">'+esc("Arrêté le "+today+(profilLabel()?" · "+profilLabel():""))+'</p></div>';
+  /* Même construction que Diapason : une seule liste, priorités en tête, chaque point qualifié */
   var autres = keys.filter(function(k){ return pr.indexOf(k)<0; });
-  html += '<div class="rsec"><h4>'+esc(pr.length?"Autres points à vérifier":"Points à vérifier")+'</h4><ul class="prio">';
-  autres.forEach(function(k){ var v = VIG[k]; var kind = v[2]==="info" ? "Point à clarifier" : (v[2]==="good" ? "Constat" : "Pratique déclarée");
+  html += '<div class="rsec"><h4>Vos points de vigilance</h4><ul class="prio">';
+  pr.forEach(function(k){ html += '<li class="gap"><span class="kind">'+esc("Manque déclaré")+'</span><b>'+esc(VIG[k][0].replace(/\.$/,""))+'</b><p>'+esc(VIG[k][1])+'</p></li>'; });
+  autres.forEach(function(k){ var v = VIG[k]; var kind = v[2]==="info" ? "Point de méthode" : (v[2]==="good" ? "Constat" : "Manque déclaré");
     html += '<li class="'+(v[2]||'gap')+'"><span class="kind">'+esc(kind)+'</span><b>'+esc(v[0].replace(/\.$/,""))+'</b><p>'+esc(v[1])+'</p></li>'; });
   html += '</ul></div>';
 
