@@ -21,6 +21,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="description" content="Unisson, by Hémistiches: framing interactions between healthcare companies and healthcare professionals under French law. Experts, scientific committees, congresses, donations, benefits and transparency: a free orientation test, then a lawyer.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LegalService","name":"Unisson, by Hémistiches","url":"https://unisson.hemistiches.com/en/","inLanguage":"en","description":"Framing interactions with healthcare professionals: collaborations, operations, diagnostic, compliance base and complements, ongoing support, with a free orientation test.","provider":{"@type":"Attorney","name":"François Césure","url":"https://www.hemistiches.com/en.html","address":{"@type":"PostalAddress","streetAddress":"33, avenue Mac-Mahon","postalCode":"75017","addressLocality":"Paris","addressCountry":"FR"},"telephone":"+33647888025","email":"francois.cesure@hemistiches.com"},"areaServed":"FR","parentOrganization":{"@type":"LegalService","name":"Hémistiches","url":"https://www.hemistiches.com/"}}</script>
+<link rel="preload" href="/fonts/nunito-sans-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* Charte reprise de hemistiches.com : noir et blanc, Avenir Next léger, filets plutôt que cartes, angles droits, césure verticale. */
 :root{
@@ -465,6 +466,21 @@ h3,h4,.qtitle,.cesure-s .verse,.quote blockquote,.lv span,.six .kind{font-weight
 .notice,.qmeta,.opt small,.qnote,.copied,.three .from,.three .range,.parcours .hyp,.budget p{font-size:16px}
 .small,.sources,.prio .kind,.label{font-size:15px}
 .prio p,.compl,.three li,.three p,.dates p,.parcours p,.budget dt,details.more > div p,.rules > li > span,.cadre,.creds,.fonctions span,.check,.qhint,.opt{font-size:17px}
+/* Typographie (3 novembre 2026) : Nunito Sans hébergée sur le site (licence SIL Open Font License), rendu identique dans Safari et Chrome, sur ordinateur et mobile ; graisses explicites, toutes présentes dans la police ; réglages propres au petit écran */
+@font-face{font-family:'Nunito Sans';font-style:normal;font-weight:200 1000;font-display:swap;src:url('/fonts/nunito-sans-normal.woff2') format('woff2')}
+@font-face{font-family:'Nunito Sans';font-style:italic;font-weight:200 1000;font-display:swap;src:url('/fonts/nunito-sans-italic.woff2') format('woff2')}
+:root{--font:'Nunito Sans','Avenir Next',Avenir,'Helvetica Neue',Arial,sans-serif}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{text-rendering:auto;font-kerning:normal;font-optical-sizing:none;font-synthesis:style}
+h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
+@media (max-width:720px){
+  body{font-weight:420}
+  h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:300}
+  h3,.cesure-s .verse,.nom .verse,.quote blockquote{font-weight:430}
+  .hero .slogan{line-height:1.08;letter-spacing:-0.015em}
+  h2{line-height:1.12}
+  p,li{overflow-wrap:break-word;hyphens:manual}
+}
 </style>
 </head>
 <body>
