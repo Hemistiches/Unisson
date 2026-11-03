@@ -776,7 +776,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
       </div>
       <ul class="rules">
         <li><b>Les mêmes missions aux trois niveaux</b><span>Qualification des opérations, revue et adaptation des conventions, justification des montants, suivi des formalités et de leurs délais, réponses aux questions des équipes. Seuls le volume et le rythme changent.</span></li>
-        <li><b>Un suivi simple</b><span>Un relevé des heures chaque mois et une alerte avant l'épuisement du volume. Les heures non utilisées ne sont pas reportées.</span></li>
+        <li><b>Un suivi simple</b><span>Un relevé des heures chaque mois et une alerte avant l'épuisement du volume. Les heures non utilisées sont reportées sur le mois suivant, dans la limite de la moitié du volume mensuel, sans dépasser trois heures.</span></li>
         <li><b>Dépassements</b><span><span data-p="taux">180 €</span> HT de l'heure, après estimation et accord préalable de votre part ; un projet substantiel fait l'objet d'un forfait distinct.</span></li>
         <li><b>Durée</b><span>Sans durée minimale, un mois de préavis de part et d'autre. Ni permanence ni disponibilité immédiate garanties.</span></li>
       </ul>
@@ -794,7 +794,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
       <div class="faq">
         <details>
           <summary>Dois-je commencer par un diagnostic ?</summary>
-          <div><p>Non. Une collaboration ou une opération peut être sécurisée seule, et un suivi peut démarrer directement si vos pratiques tiennent déjà. Le diagnostic sert lorsque vous ne savez pas ce que valent vos pratiques ; s'il conduit au socle, il en est déduit.</p></div>
+          <div><p>Non. Une collaboration ou une opération peut être sécurisée seule, et un suivi peut démarrer directement si vos pratiques tiennent déjà. Le diagnostic sert lorsque vous ne savez pas ce que valent vos pratiques ; si vous engagez ensuite le socle, son prix est déduit de celui du socle.</p></div>
         </details>
         <details>
           <summary>Faut-il un logiciel ?</summary>
@@ -814,7 +814,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         </details>
         <details>
           <summary>Les entreprises du dispositif médical sont-elles concernées ?</summary>
-          <div><p>Oui. Ces règles visent toute entreprise qui produit ou commercialise des produits de santé, ou assure des prestations de santé : laboratoires, dispositif médical et diagnostic, prestataires. Unisson s'adresse à chacune d'elles. La réglementation propre au dispositif relève de Concordance.</p></div>
+          <div><p>Oui. Ces règles visent toute entreprise qui produit ou commercialise des produits de santé, ou assure des prestations de santé : laboratoires, fabricants et distributeurs de dispositifs médicaux et de diagnostic in vitro, prestataires de santé. Unisson s'adresse à chacune d'elles. La réglementation propre au dispositif relève de Concordance.</p></div>
         </details>
         <details>
           <summary>Le résultat du test m'engage-t-il ?</summary>
@@ -847,7 +847,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         <li><b>Le test n'est pas une consultation</b><span>Le résultat est une orientation indicative, établie à partir de vos seules réponses. Il ne qualifie aucune opération et ne certifie aucune conformité.</span></li>
         <li><b>Une obligation de moyens</b><span>Aucun résultat n'est garanti, ni la suppression du risque, ni la décision d'une autorité ou d'un ordre. L'engagement porte sur un périmètre, une méthode et des délais convenus par écrit.</span></li>
         <li><b>Un prix par mission, confirmé par écrit</b><span>Chaque mission a son prix, son périmètre et ses hypothèses, écrits avant de commencer. Aucun travail supplémentaire sans votre accord.</span></li>
-        <li><b>Vérification des conflits d'intérêts</b><span>Avant toute mission. S'il en existe un, vous le savez, et le dossier n'est pas ouvert.</span></li>
+        <li><b>Vérification des conflits d'intérêts</b><span>Avant toute mission. Si un conflit existe, je vous en informe et le dossier n'est pas ouvert.</span></li>
         <li><b>Vos réponses restent chez vous</b><span>Le test fonctionne dans votre navigateur. Rien ne m'est transmis, sauf si vous demandez à être recontacté.</span></li>
       </ul>
     </div>
@@ -859,7 +859,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
     <div class="wrap">
       <button class="backlink" type="button" data-view="home">Retour au site</button>
       <h1 style="margin-top:28px">Mentions légales et confidentialité</h1>
-      <p class="label" style="margin-top:12px">Dernière mise à jour : 30 octobre 2026</p>
+      <p class="label" style="margin-top:12px">Dernière mise à jour : 3 novembre 2026</p>
       <div class="doc">
         <section>
           <h2>Éditeur du site</h2>
@@ -1161,7 +1161,7 @@ function plan(r, f){
   if(r.suivi){ var pp = D.palier(r.suivi.palier), L = PAL[r.suivi.palier];
     P.push({titre:L[0], prix:(pp.aPartirDe?"À partir de ":"")+eur(pp.prix)+" HT par mois pour "+L[1],
       pourquoi:(r.suivi.apres ? "Une fois vos outils en place, " : "")+"le rythme de vos opérations appelle un appui régulier.",
-      hyp:"Sans durée minimale, un mois de préavis, sans report d'heures ; dépassements à "+eur(TF.tauxDepassement)+" HT de l'heure après votre accord.", a:"tarifs-suivi", mens:pp.prix}); }
+      hyp:"Sans durée minimale, un mois de préavis, report de "+(pp.heures>=6?"trois heures":"une heure et demie")+" au plus sur le mois suivant ; dépassements à "+eur(TF.tauxDepassement)+" HT de l'heure après votre accord.", a:"tarifs-suivi", mens:pp.prix}); }
   if(r.devis.length) P.push({titre:"Sur devis : "+r.devis.map(function(d){ return DEV[d]; }).join(", "), prix:"Sur devis, après un premier échange",
     pourquoi:"Ces sujets sortent des formules décrites : leur périmètre dépend de votre situation, et le prix est arrêté avec vous avant toute intervention, au besoin par étapes.",
     hyp:(r.devis.indexOf("corruption")>-1 ? "Le programme anticorruption de la loi Sapin II s'impose aux sociétés et groupes d'au moins cinq cents salariés dont le chiffre d'affaires dépasse 100 millions d'euros ; en deçà, il reste volontaire. " : "")+"Pour porter ces sujets dans la durée, Cadence assure la direction juridique externalisée.", a:"formules"});

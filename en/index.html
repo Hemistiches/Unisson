@@ -776,7 +776,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
       </div>
       <ul class="rules">
         <li><b>The same work at all three levels</b><span>Qualifying operations, reviewing and adapting agreements, justifying amounts, tracking formalities and their deadlines, answering the teams' questions. Only volume and pace change.</span></li>
-        <li><b>Simple tracking</b><span>A monthly time statement and an alert before the volume runs out. Unused hours are not carried over.</span></li>
+        <li><b>Simple tracking</b><span>A monthly time statement and an alert before the volume runs out. Unused hours are carried over to the following month, up to half the monthly volume and no more than three hours.</span></li>
         <li><b>Overruns</b><span><span data-p="taux">€180</span> excl. VAT per hour, after an estimate and your prior agreement; a substantial project is quoted as a separate fixed fee.</span></li>
         <li><b>Term</b><span>No minimum term, one month's notice on either side. No standby or guaranteed immediate availability.</span></li>
       </ul>
@@ -847,7 +847,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         <li><b>The test is not legal advice</b><span>The result is an indicative orientation, based on your answers alone. It does not qualify any operation and certifies no compliance.</span></li>
         <li><b>An obligation of means</b><span>No result is guaranteed: neither the removal of risk, nor the decision of an authority or professional order. The commitment covers a scope, a method and timelines agreed in writing.</span></li>
         <li><b>A price per engagement, confirmed in writing</b><span>Each engagement has its price, scope and assumptions, written down before starting. No additional work without your agreement.</span></li>
-        <li><b>Conflict-of-interest check</b><span>Before any engagement. If there is one, you are told, and the matter is not opened.</span></li>
+        <li><b>Conflict-of-interest check</b><span>Before any engagement. If there is a conflict, I inform you and the matter is not opened.</span></li>
         <li><b>Your answers stay with you</b><span>The test runs in your browser. Nothing is sent to me unless you ask to be contacted.</span></li>
       </ul>
     </div>
@@ -859,7 +859,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
     <div class="wrap">
       <button class="backlink" type="button" data-view="home">Back to the site</button>
       <h1 style="margin-top:28px">Legal notice and privacy</h1>
-      <p class="label" style="margin-top:12px">Last updated: 30 October 2026</p>
+      <p class="label" style="margin-top:12px">Last updated: 3 November 2026</p>
       <div class="doc">
         <section>
           <h2>Publisher</h2>
@@ -1158,7 +1158,7 @@ function plan(r, f){
   if(r.suivi){ var pp = D.palier(r.suivi.palier), L = PAL[r.suivi.palier];
     P.push({titre:L[0], prix:(pp.aPartirDe?"From ":"")+eur(pp.prix)+" excl. VAT per month for "+L[1],
       pourquoi:(r.suivi.apres ? "Once your tools are in place, " : "")+"the pace of your operations calls for ongoing support.",
-      hyp:"No minimum term, one month's notice, no carry-over of hours; overruns at "+eur(TF.tauxDepassement)+" excl. VAT per hour with your agreement.", a:"tarifs-suivi", mens:pp.prix}); }
+      hyp:"No minimum term, one month's notice, up to "+(pp.heures>=6?"three hours":"one and a half hours")+" carried over to the next month; overruns at "+eur(TF.tauxDepassement)+" excl. VAT per hour with your agreement.", a:"tarifs-suivi", mens:pp.prix}); }
   if(r.devis.length) P.push({titre:"Quoted: "+r.devis.map(function(d){ return DEV[d]; }).join(", "), prix:"Quoted, after a first conversation",
     pourquoi:"These topics fall outside the packages described: their scope depends on your situation, and the price is set with you before any work, in stages if needed.",
     hyp:(r.devis.indexOf("corruption")>-1 ? "The anti-corruption programme of the French Sapin II law applies to companies and groups with at least five hundred employees and turnover above €100 million; below that, it remains voluntary. " : "")+"To carry these topics over time, Cadence provides the outsourced legal department.", a:"formules"});

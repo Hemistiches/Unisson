@@ -8,7 +8,7 @@
      1. Tarifs (HT), arrêtés le 30 octobre 2026 (repère : environ 170 € de l'heure sur le temps moyen estimé).
      ============================================================ */
   var TARIFS = {
-    version: "2026-10-30d",
+    version: "2026-11-03",
     consultation: { prix: 350, minutes: 45, deductionJours: 30 },
     collaboration: 500,        // un intervenant, une mission, une convention
     operation: 1000,           // plusieurs intervenants ou une organisation (comité, congrès, partenariat)
@@ -27,7 +27,7 @@
       { cle: "renforce", prix: 1490, heures: 10, aPartirDe: true }
     ],
     tauxDepassement: 180,
-    preavisMois: 1           // sans durée minimale, sans report d'heures (modèle Concordance)
+    preavisMois: 1           // sans durée minimale ; report sur le mois suivant : moitié du volume, trois heures au plus (règle commune du 3 novembre 2026)
   };
 
   function palier(cle) { for (var i = 0; i < TARIFS.suivi.length; i++) if (TARIFS.suivi[i].cle === cle) return TARIFS.suivi[i]; return null; }
