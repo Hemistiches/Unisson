@@ -63,7 +63,7 @@
       O("dons", ["op_collective", "dons"]), O("recherche", ["recherche"]), O("formation", ["evenement"]), O("formation_produit", ["evenement"])
     ]},
     /* Conditionnelle : Code MedTech appliqué et soutien à des congrès organisés par des tiers. */
-    soutien_direct: { opts: [ O("oui", ["faible", "soutien_direct"]), O("bourses", []), O("nsp", ["nsp"]) ]},
+    soutien_direct: { opts: [ O("oui", ["faible", "faible", "soutien_direct"])   /* compte double : interdit du Code MedTech, pas une simple faiblesse */, O("bourses", []), O("nsp", ["nsp"]) ]},
     /* Conditionnelle : un code appliqué et des événements organisés ou soutenus. */
     evaluation: { opts: [ O("systematique", []), O("parfois", ["faible", "eval_partielle"]), O("non", ["faible", "eval_absente"]), O("nsp", ["nsp"]) ]},
     frequence: { opts: [ O("rare", []), O("reguliere", ["recurrent"]), O("frequente", ["recurrent", "intense"]), O("nsp", ["nsp"]) ]},
