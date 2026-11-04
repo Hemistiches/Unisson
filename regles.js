@@ -45,11 +45,10 @@
     profil: { opts: [
       O("labo", []), O("dm", ["dm"]), O("deux", ["dm", "deux"]), O("autre", [])
     ]},
-    groupe: { opts: [ O("non", []), O("oui", ["filiale"]) ]},
     /* Conditionnelle : sauf « autre ». Options filtrées selon le secteur (voir options()). */
     code: { opts: [
       O("ddp", ["ddp"]), O("medtech", ["medtech"]), O("les_deux", ["ddp", "medtech"]),
-      O("groupe", []), O("aucun", []), O("nsp", ["nsp_mineur", "code_nsp"])
+      O("groupe", ["filiale"]), O("aucun", []), O("nsp", ["nsp_mineur", "code_nsp"])
     ]},
     acteurs: { multi: true, exclusive: "aucun", opts: [
       O("ps", ["collab"]), O("experts", ["collab", "experts"]), O("etab", ["collab", "etab"]),
@@ -62,9 +61,14 @@
       O("expertise", []), O("board", ["op_collective"]), O("congres", ["op_collective", "congres"]), O("congres_tiers", ["op_collective", "congres", "congres_tiers"]),
       O("dons", ["op_collective", "dons"]), O("recherche", ["recherche"]), O("formation", ["evenement"]), O("formation_produit", ["evenement"])
     ]},
-    /* Conditionnelle : Code MedTech appliqué et soutien à des congrès organisés par des tiers. */
-    soutien_direct: { opts: [ O("oui", ["faible", "faible", "soutien_direct"])   /* compte double : interdit du Code MedTech, pas une simple faiblesse */, O("bourses", []), O("nsp", ["nsp"]) ]},
-    /* Conditionnelle : un code appliqué et des événements organisés ou soutenus. */
+    /* Conditionnelle : Code MedTech appliqué et soutien à des congrès organisés par des tiers.
+       Réunit le soutien direct et l'avis du Conference Vetting System. */
+    soutien_direct: { opts: [
+      O("cvs", []), O("sans_cvs", ["faible", "eval_cvs"]),
+      O("direct", ["faible", "faible", "soutien_direct"]),   /* compte double : interdit du Code MedTech, pas une simple faiblesse */
+      O("nsp", ["nsp"])
+    ]},
+    /* Conditionnelle : DDP appliquées et des événements organisés ou soutenus (plateforme du Codeem). */
     evaluation: { opts: [ O("systematique", []), O("parfois", ["faible", "eval_partielle"]), O("non", ["faible", "eval_absente"]), O("nsp", ["nsp"]) ]},
     frequence: { opts: [ O("rare", []), O("reguliere", ["recurrent"]), O("frequente", ["recurrent", "intense"]), O("nsp", ["nsp"]) ]},
     regles: { opts: [
@@ -123,7 +127,7 @@
   /* Liste des questions posées, recalculée à chaque réponse : une réponse modifiée en revenant en arrière
      retire les questions qui ne s'appliquent plus, et leurs réponses ne sont plus prises en compte. */
   function parcours(a) {
-    var L = ["profil", "groupe"];
+    var L = ["profil"];
     if (a.profil && a.profil !== "autre") L.push("code");
     L.push("acteurs");
     if (a_(a, "acteurs", "aucun")) {
@@ -136,11 +140,13 @@
     L.push("operations");
     var c = choisies("code", a).reduce(function (m, o) { o.flags.forEach(function (x) { m[x] = true; }); return m; }, {});
     if (c.medtech && a_(a, "operations", "congres_tiers")) L.push("soutien_direct");
-    if ((c.ddp || c.medtech) && (a_(a, "operations", "congres") || a_(a, "operations", "congres_tiers") || a_(a, "operations", "formation") || a_(a, "operations", "formation_produit"))) L.push("evaluation");
+    if (c.ddp && (a_(a, "operations", "congres") || a_(a, "operations", "congres_tiers") || a_(a, "operations", "formation") || a_(a, "operations", "formation_produit"))) L.push("evaluation");
     L.push("frequence", "regles", "conventions", "justification", "formalites", "reconstitution");
     if (a_(a, "acteurs", "intermediaires")) L.push("intermediaires");
     /* Questions qui ouvrent sur les compléments du socle : posées à toute entreprise qui collabore. */
-    L.push("autres", "liens", "formation", "verification", "alerte", "voisins", "besoin");
+    if (a_(a, "acteurs", "etab") || a_(a, "operations", "dons")) L.push("autres");
+    if (a_(a, "operations", "expertise") || a_(a, "operations", "board")) L.push("liens");
+    L.push("formation", "verification", "alerte", "voisins", "besoin");
     if (a.besoin === "operation") L.push("echeance");
     return L;
   }
@@ -227,7 +233,7 @@
     var f = drapeaux(a), k = [];
     if (f.sans_collab) { if (f.devis_controle) k.push("controle"); else if (f.urgent) k.push("urgent"); k.push(f.projet ? "projet" : "aucun"); k.push("reserve"); return k; }
     if (f.devis_controle) k.push("controle"); else if (f.urgent) k.push("urgent");
-    ["soutien_direct", "eval_absente", "eval_partielle", "sans_ecrit", "partenaire_etat", "qualif_absente", "qualif_orale", "justif_informelle", "formalites_variables", "recon_impossible", "modeles_anciens"].forEach(function (x) { if (f[x]) k.push(x); });
+    ["soutien_direct", "eval_cvs", "eval_absente", "eval_partielle", "sans_ecrit", "partenaire_etat", "qualif_absente", "qualif_orale", "justif_informelle", "formalites_variables", "recon_impossible", "modeles_anciens"].forEach(function (x) { if (f[x]) k.push(x); });
     if (f.inconnues) k.push("inconnues");
     if (f.inter_informel) k.push("intermediaires");
     if (f.ddp && f.patients_ind) k.push("ddp_patients");

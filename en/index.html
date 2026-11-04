@@ -984,11 +984,9 @@ var T = {
   profil:{kicker:"Your company", title:"Which sector are you in?", o:{
     labo:["Medicines","Pharmaceutical or biotechnology company"], dm:["Medical devices or diagnostics"],
     deux:["Both","Medicines and medical devices"], autre:["Another health products or services business"]}},
-  groupe:{kicker:"Your company", title:"Is your company the subsidiary of a group?", o:{
-    non:["No"], oui:["Yes","With, where applicable, procedures set by the group"]}},
   code:{kicker:"Your company", title:"Does your company apply an industry code?", o:{
     ddp:["The Leem professional ethics rules (DDP)"], medtech:["The MedTech Europe Code","Directly or through our national association"],
-    les_deux:["Both"], groupe:["Only our group's code"], aucun:["None"], nsp:["I don't know"]}},
+    les_deux:["Both"], groupe:["Our group's code","We are the subsidiary of a group"], aucun:["None"], nsp:["I don't know"]}},
   acteurs:{kicker:"Your collaborations", title:"Who do you work with?", hint:"Several answers possible.", o:{
     ps:["Healthcare professionals or healthcare students"], experts:["Experts who are not healthcare professionals","Engineers, statisticians, non-clinical researchers"],
     etab:["Hospitals and healthcare facilities"], societes:["Learned societies or professional associations"],
@@ -1001,9 +999,10 @@ var T = {
     congres:["Invitations and hospitality"], congres_tiers:["Support for third-party congresses","Covering participants, grants"],
     dons:["Donations, grants or partnerships"],
     recherche:["Clinical or observational research"], formation:["Training for professionals"], formation_produit:["Product or procedure training"]}},
-  soutien_direct:{kicker:"Congresses", title:"Do you directly cover the registration, travel or accommodation of professionals for congresses organised by third parties?", o:{
-    oui:["Yes"], bourses:["No, we go through educational grants"], nsp:["I don't know"]}},
-  evaluation:{kicker:"Events", title:"Are the events you organise or support submitted to the prior assessment provided for by your code?", hint:"Codeem platform for the DDP, Conference Vetting System for the MedTech Code.", o:{
+  soutien_direct:{kicker:"Congresses", title:"For congresses organised by third parties, how do you support professionals' attendance?", o:{
+    cvs:["Through educational grants, for events approved by the CVS"], sans_cvs:["Through educational grants, without checking the CVS decision"],
+    direct:["By directly covering some participants","Registration, travel or accommodation"], nsp:["I don't know"]}},
+  evaluation:{kicker:"Events", title:"Are the events you organise or support submitted to prior Codeem assessment?", hint:"Codeem assessment platform.", o:{
     systematique:["Always"], parfois:["Sometimes"], non:["No"], nsp:["I don't know"]}},
   frequence:{kicker:"Your collaborations", title:"How often?", o:{
     rare:["A few operations a year"], reguliere:["About every month"], frequente:["Every week or more"], nsp:["I don't know"]}},
@@ -1060,7 +1059,8 @@ var VIG = {
   inconnues:["\"I don't know\" answers.","They reveal no breach: they flag points to clarify, often because the information is spread across several teams.","info"],
   intermediaires:["Intermediaries framed informally.","A benefit offered through an agency or an organiser remains a benefit offered by the company: the prohibition also covers benefits offered or provided indirectly (art. L. 1453-5).",""],
   soutien_direct:["Direct support for congress participants.","The MedTech Europe Code prohibits directly covering an identifiable professional for a congress organised by a third party. Support goes through a grant paid to an organisation, which alone selects the participants.",""],
-  eval_absente:["Events not submitted to your code's assessment.","Under the DDP, assessment goes through the Codeem platform, and an incomplete file filed late is inadmissible. Under the MedTech Code, Conference Vetting System approval is required for events within its scope, and its decision binds all members.",""],
+  eval_absente:["Events not submitted to Codeem assessment.","Since 7 February 2026, events are assessed on the Codeem platform, and an incomplete file filed late is inadmissible.",""],
+  eval_cvs:["Congresses supported without checking the CVS decision.","Conference Vetting System approval is required to support an event within its scope, and its decision binds all MedTech Europe members.",""],
   eval_partielle:["Events assessed case by case.","When the assessment provided for by your code is not systematic, an event that required it may go ahead without it. You need to know which ones do.",""],
   ddp_patients:["Collaborations with individual patients.","The DDP applicable since 1 January 2026 also cover individual patients: contacts with no commercial or promotional role, a written contract, fair remuneration.","info"],
   medtech_intermediaires:["Intermediaries, under the MedTech Code.","The MedTech Code further requires a risk assessment, prior and periodic checks, an audit right and training of intermediaries.","info"],

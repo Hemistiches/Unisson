@@ -985,11 +985,9 @@ var T = {
   profil:{kicker:"Votre entreprise", title:"Dans quel secteur exercez-vous ?", o:{
     labo:["Le médicament","Laboratoire pharmaceutique ou de biotechnologie"], dm:["Le dispositif médical ou le diagnostic"],
     deux:["Les deux","Médicament et dispositif médical"], autre:["Une autre activité de produits ou de prestations de santé"]}},
-  groupe:{kicker:"Votre entreprise", title:"Votre entreprise est-elle la filiale d'un groupe ?", o:{
-    non:["Non"], oui:["Oui","Avec, le cas échéant, des procédures définies par le groupe"]}},
   code:{kicker:"Votre entreprise", title:"Votre entreprise applique-t-elle un code professionnel ?", o:{
     ddp:["Les Dispositions déontologiques professionnelles du Leem"], medtech:["Le Code MedTech Europe","Directement ou par notre association nationale"],
-    les_deux:["Les deux"], groupe:["Le seul code de notre groupe"], aucun:["Aucun"], nsp:["Je ne sais pas"]}},
+    les_deux:["Les deux"], groupe:["Le code de notre groupe","Nous sommes la filiale d'un groupe"], aucun:["Aucun"], nsp:["Je ne sais pas"]}},
   acteurs:{kicker:"Vos collaborations", title:"Avec qui collaborez-vous ?", hint:"Plusieurs réponses possibles.", o:{
     ps:["Des professionnels de santé ou des étudiants en santé"], experts:["Des experts qui ne sont pas professionnels de santé","Ingénieurs, statisticiens, chercheurs non soignants"],
     etab:["Des établissements de santé"], societes:["Des sociétés savantes ou des associations de professionnels"],
@@ -1002,9 +1000,10 @@ var T = {
     congres:["Invitations et hospitalité"], congres_tiers:["Soutien à des congrès organisés par des tiers","Prise en charge de participants, bourses"],
     dons:["Dons, subventions ou partenariats"], recherche:["Recherche clinique ou observationnelle"],
     formation:["Actions de formation des professionnels"], formation_produit:["Formations aux produits ou aux procédures"]}},
-  soutien_direct:{kicker:"Les congrès", title:"Prenez-vous en charge directement l'inscription, le voyage ou l'hébergement de professionnels pour des congrès organisés par des tiers ?", o:{
-    oui:["Oui"], bourses:["Non, nous passons par des bourses éducatives"], nsp:["Je ne sais pas"]}},
-  evaluation:{kicker:"Les événements", title:"Les événements que vous organisez ou soutenez sont-ils soumis à l'évaluation préalable prévue par votre code ?", hint:"Plateforme du Codeem pour les DDP, Conference Vetting System pour le Code MedTech.", o:{
+  soutien_direct:{kicker:"Les congrès", title:"Pour les congrès organisés par des tiers, comment soutenez-vous la participation des professionnels ?", o:{
+    cvs:["Par des bourses éducatives, pour des événements approuvés par le CVS"], sans_cvs:["Par des bourses éducatives, sans vérifier l'avis du CVS"],
+    direct:["En prenant en charge directement certains participants","Inscription, voyage ou hébergement"], nsp:["Je ne sais pas"]}},
+  evaluation:{kicker:"Les événements", title:"Les événements que vous organisez ou soutenez sont-ils soumis à l'évaluation préalable du Codeem ?", hint:"Plateforme d'évaluation du Codeem.", o:{
     systematique:["Systématiquement"], parfois:["Parfois"], non:["Non"], nsp:["Je ne sais pas"]}},
   frequence:{kicker:"Vos collaborations", title:"À quel rythme ?", o:{
     rare:["Quelques opérations par an"], reguliere:["Chaque mois environ"], frequente:["Chaque semaine ou davantage"], nsp:["Je ne sais pas"]}},
@@ -1061,7 +1060,8 @@ var VIG = {
   inconnues:["Des réponses « je ne sais pas ».","Elles ne révèlent aucun manquement : elles signalent des points à clarifier, souvent parce que l'information est répartie entre plusieurs équipes.","info"],
   intermediaires:["Des intermédiaires encadrés de manière informelle.","Un avantage offert par l'intermédiaire d'une agence ou d'un organisateur reste un avantage offert par l'entreprise : l'interdiction vise aussi les avantages proposés ou procurés de façon indirecte (art. L. 1453-5).",""],
   soutien_direct:["Un soutien direct à des participants de congrès.","Le Code MedTech Europe interdit de prendre en charge directement un professionnel identifiable pour un congrès organisé par un tiers. Le soutien passe par une bourse versée à un organisme, qui choisit seul les participants.",""],
-  eval_absente:["Des événements non soumis à l'évaluation de votre code.","Pour les DDP, l'évaluation passe par la plateforme du Codeem, et un dossier incomplet déposé hors délai est irrecevable. Pour le Code MedTech, l'approbation du Conference Vetting System est requise pour les événements de son champ, et sa décision lie tous les membres.",""],
+  eval_absente:["Des événements non soumis à l'évaluation du Codeem.","Depuis le 7 février 2026, l'évaluation des événements passe par la plateforme du Codeem, et un dossier incomplet déposé hors délai est irrecevable.",""],
+  eval_cvs:["Des congrès soutenus sans vérifier l'avis du CVS.","L'approbation du Conference Vetting System est requise pour soutenir un événement de son champ, et sa décision lie tous les membres de MedTech Europe.",""],
   eval_partielle:["Une évaluation des événements au cas par cas.","Quand l'évaluation prévue par votre code n'est pas systématique, un événement qui y était soumis peut passer sans elle. Il faut savoir lesquels le sont.",""],
   ddp_patients:["Des collaborations avec des patients à titre individuel.","Les DDP applicables depuis le 1er janvier 2026 encadrent aussi les patients à titre individuel : interlocuteurs sans fonction commerciale ou promotionnelle, contrat écrit, juste rémunération.","info"],
   medtech_intermediaires:["Des intermédiaires, au regard du Code MedTech.","Le Code MedTech exige en outre une évaluation des risques, des vérifications préalables et périodiques, un droit d'audit et une formation des intermédiaires.","info"],
