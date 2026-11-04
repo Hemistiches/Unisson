@@ -984,9 +984,9 @@ var T = {
   profil:{kicker:"Your company", title:"Which sector are you in?", o:{
     labo:["Medicines","Pharmaceutical or biotechnology company"], dm:["Medical devices or diagnostics"],
     deux:["Both","Medicines and medical devices"], autre:["Another health products or services business"]}},
-  code:{kicker:"Your company", title:"Does your company apply an industry code?", o:{
+  code:{kicker:"Your company", title:"Does your company apply an industry code?", hint:"Several answers possible.", o:{
     ddp:["The Leem professional ethics rules (DDP)"], medtech:["The MedTech Europe Code","Directly or through our national association"],
-    les_deux:["Both","Leem DDP and MedTech Europe Code"], groupe:["Our group's code","We are the subsidiary of a group"], aucun:["None"], nsp:["I don't know"]}},
+    groupe:["Our group's code","We are the subsidiary of a group"], aucun:["None"], nsp:["I don't know"]}},
   acteurs:{kicker:"Your collaborations", title:"Who do you work with?", hint:"Several answers possible.", o:{
     ps:["Healthcare professionals or healthcare students"], experts:["Experts who are not healthcare professionals","Engineers, statisticians, non-clinical researchers"],
     etab:["Hospitals and healthcare facilities"], societes:["Learned societies or professional associations"],
@@ -1104,7 +1104,7 @@ var BRQ = {cadeaux:["Gifts and hospitality policy","You offer gifts or invitatio
 var questions = [], answers = {}, idx = -1;
 function rebuild(){ questions = D.parcours(answers); }
 function posOf(id){ return questions.indexOf(id); }
-function answered(id){ var v = answers[id]; if(D.Q[id].multi) return !!(v && v.length>0); return v !== undefined && D.options(id, answers).some(function(o){ return o.k===v; }); }
+function answered(id){ var v = answers[id]; if(D.Q[id].multi) return !!(v && v.some(function(k){ return D.options(id, answers).some(function(o){ return o.k===k; }); })); return v !== undefined && D.options(id, answers).some(function(o){ return o.k===v; }); }
 function profilLabel(){ var k = answers.profil; return k ? T.profil.o[k][0] : ""; }
 function actives(){ var a = {}; D.parcours(answers).forEach(function(id){ if(answers[id] !== undefined) a[id] = answers[id]; }); return a; }
 
@@ -1137,7 +1137,7 @@ function render(){
     var k = b.getAttribute("data-k");
     if(multi){
       var s = (answers[id]||[]).slice(), i = s.indexOf(k);
-      if(i>-1) s.splice(i,1); else { if(k===q.exclusive) s = []; else s = s.filter(function(x){ return x!==q.exclusive; }); s.push(k); }
+      if(i>-1) s.splice(i,1); else { var ex = [].concat(q.exclusive||[]); if(ex.indexOf(k)>-1) s = []; else s = s.filter(function(x){ return ex.indexOf(x)<0; }); s.push(k); }
       answers[id] = s;
     } else answers[id] = k;
     var y = window.scrollY; rebuild(); idx = posOf(id); render(); window.scrollTo(0,y);

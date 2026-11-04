@@ -41,13 +41,13 @@
   function O(k, flags) { return { k: k, flags: flags || [] }; }
 
   var Q = {
-    /* Secteur (4 novembre 2026). La filiale est repérée par l'option « code de notre groupe » de la question suivante. */
+    /* Secteur (4 novembre 2026). La filiale est repérée par l'option « code de notre groupe » de la question suivante, à choix multiple. */
     profil: { opts: [
       O("labo", []), O("dm", ["dm"]), O("deux", ["dm", "deux"]), O("autre", [])
     ]},
     /* Conditionnelle : sauf « autre ». Options filtrées selon le secteur (voir options()). */
-    code: { opts: [
-      O("ddp", ["ddp"]), O("medtech", ["medtech"]), O("les_deux", ["ddp", "medtech"]),
+    code: { multi: true, exclusive: ["aucun", "nsp"], opts: [
+      O("ddp", ["ddp"]), O("medtech", ["medtech"]),
       O("groupe", ["filiale"]), O("aucun", []), O("nsp", ["nsp_mineur", "code_nsp"])
     ]},
     acteurs: { multi: true, exclusive: "aucun", opts: [
@@ -112,14 +112,13 @@
     return os.filter(function (o) {
       if (o.k === "ddp") return p === "labo" || p === "deux";
       if (o.k === "medtech") return p === "dm" || p === "deux";
-      if (o.k === "les_deux") return p === "deux";
       return true;
     });
   }
   function opt(id, k) { var os = Q[id].opts; for (var i = 0; i < os.length; i++) if (os[i].k === k) return os[i]; return null; }
   function choisies(id, a) {
     var v = a[id]; if (v === undefined || v === null) return [];
-    if (Q[id].multi) return (v || []).map(function (k) { return opt(id, k); }).filter(Boolean);
+    if (Q[id].multi) { var ok = options(id, a); return (v || []).map(function (k) { return opt(id, k); }).filter(function (o) { return o && ok.indexOf(o) > -1; }); }
     var o = opt(id, v); if (o && options(id, a).indexOf(o) < 0) return []; return o ? [o] : [];
   }
   function a_(a, id, k) { var v = a[id]; return Q[id].multi ? (v || []).indexOf(k) > -1 : v === k; }

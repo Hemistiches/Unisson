@@ -985,9 +985,9 @@ var T = {
   profil:{kicker:"Votre entreprise", title:"Dans quel secteur exercez-vous ?", o:{
     labo:["Le médicament","Laboratoire pharmaceutique ou de biotechnologie"], dm:["Le dispositif médical ou le diagnostic"],
     deux:["Les deux","Médicament et dispositif médical"], autre:["Une autre activité de produits ou de prestations de santé"]}},
-  code:{kicker:"Votre entreprise", title:"Votre entreprise applique-t-elle un code professionnel ?", o:{
+  code:{kicker:"Votre entreprise", title:"Votre entreprise applique-t-elle un code professionnel ?", hint:"Plusieurs réponses possibles.", o:{
     ddp:["Les Dispositions déontologiques professionnelles du Leem"], medtech:["Le Code MedTech Europe","Directement ou par notre association nationale"],
-    les_deux:["Les deux","DDP du Leem et Code MedTech Europe"], groupe:["Le code de notre groupe","Nous sommes la filiale d'un groupe"], aucun:["Aucun"], nsp:["Je ne sais pas"]}},
+    groupe:["Le code de notre groupe","Nous sommes la filiale d'un groupe"], aucun:["Aucun"], nsp:["Je ne sais pas"]}},
   acteurs:{kicker:"Vos collaborations", title:"Avec qui collaborez-vous ?", hint:"Plusieurs réponses possibles.", o:{
     ps:["Des professionnels de santé ou des étudiants en santé"], experts:["Des experts qui ne sont pas professionnels de santé","Ingénieurs, statisticiens, chercheurs non soignants"],
     etab:["Des établissements de santé"], societes:["Des sociétés savantes ou des associations de professionnels"],
@@ -1106,7 +1106,7 @@ var BRQ = {cadeaux:["Politique cadeaux et invitations","Vous offrez des cadeaux 
 var questions = [], answers = {}, idx = -1;
 function rebuild(){ questions = D.parcours(answers); }
 function posOf(id){ return questions.indexOf(id); }
-function answered(id){ var v = answers[id]; if(D.Q[id].multi) return !!(v && v.length>0); return v !== undefined && D.options(id, answers).some(function(o){ return o.k===v; }); }
+function answered(id){ var v = answers[id]; if(D.Q[id].multi) return !!(v && v.some(function(k){ return D.options(id, answers).some(function(o){ return o.k===k; }); })); return v !== undefined && D.options(id, answers).some(function(o){ return o.k===v; }); }
 function profilLabel(){ var k = answers.profil; return k ? T.profil.o[k][0] : ""; }
 /* Ne garder que les réponses du parcours en cours : une branche abandonnée ne pèse plus. */
 function actives(){ var a = {}; D.parcours(answers).forEach(function(id){ if(answers[id] !== undefined) a[id] = answers[id]; }); return a; }
@@ -1140,7 +1140,7 @@ function render(){
     var k = b.getAttribute("data-k");
     if(multi){
       var s = (answers[id]||[]).slice(), i = s.indexOf(k);
-      if(i>-1) s.splice(i,1); else { if(k===q.exclusive) s = []; else s = s.filter(function(x){ return x!==q.exclusive; }); s.push(k); }
+      if(i>-1) s.splice(i,1); else { var ex = [].concat(q.exclusive||[]); if(ex.indexOf(k)>-1) s = []; else s = s.filter(function(x){ return ex.indexOf(x)<0; }); s.push(k); }
       answers[id] = s;
     } else answers[id] = k;
     var y = window.scrollY; rebuild(); idx = posOf(id); render(); window.scrollTo(0,y);
