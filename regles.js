@@ -41,7 +41,7 @@
   function O(k, flags) { return { k: k, flags: flags || [] }; }
 
   var Q = {
-    /* Secteur (4 novembre 2026) : la structure (filiale) est désormais une question distincte. */
+    /* Secteur (4 novembre 2026). La filiale est repérée par l'option « code de notre groupe » de la question suivante. */
     profil: { opts: [
       O("labo", []), O("dm", ["dm"]), O("deux", ["dm", "deux"]), O("autre", [])
     ]},
@@ -59,7 +59,7 @@
     projet: { opts: [ O("non", ["pas_projet"]), O("bientot", ["projet", "bientot"]), O("plus_tard", ["projet"]) ]},
     operations: { multi: true, opts: [
       O("expertise", []), O("board", ["op_collective"]), O("congres", ["op_collective", "congres"]), O("congres_tiers", ["op_collective", "congres", "congres_tiers"]),
-      O("dons", ["op_collective", "dons"]), O("recherche", ["recherche"]), O("formation", ["evenement"]), O("formation_produit", ["evenement"])
+      O("dons", ["op_collective", "dons"]), O("recherche", ["recherche"]), O("formation", []), O("formation_produit", [])
     ]},
     /* Conditionnelle : Code MedTech appliqué et soutien à des congrès organisés par des tiers.
        Réunit le soutien direct et l'avis du Conference Vetting System. */
@@ -143,7 +143,8 @@
     if (c.ddp && (a_(a, "operations", "congres") || a_(a, "operations", "congres_tiers") || a_(a, "operations", "formation") || a_(a, "operations", "formation_produit"))) L.push("evaluation");
     L.push("frequence", "regles", "conventions", "justification", "formalites", "reconstitution");
     if (a_(a, "acteurs", "intermediaires")) L.push("intermediaires");
-    /* Questions qui ouvrent sur les compléments du socle : posées à toute entreprise qui collabore. */
+    /* Compléments du socle : cadeaux aux autres interlocuteurs (établissements ou dons), liens d'intérêts (expertise ou comités) ;
+       formation, vérification et alerte : posées à toute entreprise qui collabore. */
     if (a_(a, "acteurs", "etab") || a_(a, "operations", "dons")) L.push("autres");
     if (a_(a, "operations", "expertise") || a_(a, "operations", "board")) L.push("liens");
     L.push("formation", "verification", "alerte", "voisins", "besoin");
@@ -218,7 +219,7 @@
     var f = drapeaux(a);
     if (f.sans_collab) return null;
     var frag = f.faibles * 2 + f.inconnues;
-    var expo = (f.urgent ? 3 : 0) + (f.sans_ecrit ? 2 : 0) + (f.partenaire_etat ? 1 : 0) + (f.justif_informelle ? 2 : 0) + (f.recon_impossible ? 2 : 0)
+    var expo = (f.urgent ? 3 : 0) + (f.soutien_direct ? 3 : 0) + (f.eval_cvs ? 1 : 0) + (f.eval_absente ? 1 : 0) + (f.sans_ecrit ? 2 : 0) + (f.partenaire_etat ? 1 : 0) + (f.justif_informelle ? 2 : 0) + (f.recon_impossible ? 2 : 0)
       + (f.inter_informel ? 1 : 0) + (f.brique_alerte ? 2 : 0) + (f.brique_conflits ? 1 : 0) + (f.qualif_absente ? 1 : 0);
     var intens = ({ rare: 1, reguliere: 2, frequente: 3, nsp: 1 })[a.frequence] || 1;
     intens += f.nActeurs >= 3 ? 2 : (f.nActeurs >= 2 ? 1 : 0);
