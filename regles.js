@@ -8,7 +8,7 @@
      1. Tarifs (HT), arrêtés le 30 octobre 2026 (repère : environ 170 € de l'heure sur le temps moyen estimé).
      ============================================================ */
   var TARIFS = {
-    version: "2026-11-03",
+    version: "2026-11-04",
     consultation: { prix: 350, minutes: 45, deductionJours: 30 },
     collaboration: 500,        // un intervenant, une mission, une convention
     operation: 1000,           // plusieurs intervenants ou une organisation (comité, congrès, partenariat)
@@ -216,7 +216,8 @@
     if (f.filiale) r.briques.push("groupe");
     if (f.formalites_variables || f.formalites_nsp) r.briques.push("transparence");
     var evts = ["congres", "congres_tiers", "formation", "formation_produit"].some(function (k) { return a_(a, "operations", k); });
-    r.dossier = !!(r.operation && (f.ddp || f.medtech) && evts);
+    /* Dossier d'évaluation : plateforme du Codeem pour tout événement (DDP) ; CVS pour les seuls congrès de tiers (Code MedTech). */
+    r.dossier = !!(r.operation && ((f.ddp && evts) || (f.medtech && a_(a, "operations", "congres_tiers"))));
 
     var rien = !r.diagnostic && !r.structuration && !r.operation && !r.suivi && !r.briques.length && !r.devis.length;
     if (a.besoin === "question" || rien) r.consultation = "principale";
