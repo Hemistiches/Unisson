@@ -540,7 +540,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         <a class="btn btn-light" href="#test">Take the test</a>
         <a class="link-quiet" href="#formules">See the fees</a>
       </div>
-      <p class="facts"><span>About four minutes</span><span>Free</span><span>Immediate result, no email required</span><span>Prices excluding VAT</span></p>
+      <p class="facts"><span>About four minutes</span><span>Free</span><span>Immediate result</span><span>Prices excluding VAT</span></p>
     </div>
   </section>
 
@@ -981,20 +981,30 @@ document.querySelectorAll("[data-p]").forEach(function(el){ var v = prixAttr(el.
 
 /* ---------- Questionnaire texts (structure and branching: regles.js) ---------- */
 var T = {
-  profil:{kicker:"Your company", title:"What is your company?", o:{
-    labo:["A pharmaceutical or biotechnology company"], filiale:["The French subsidiary of a group","With procedures set by the group"],
-    dm:["A medical device or diagnostics company"], autre:["Another company providing health products or services"]}},
+  profil:{kicker:"Your company", title:"Which sector are you in?", o:{
+    labo:["Medicines","Pharmaceutical or biotechnology company"], dm:["Medical devices or diagnostics"],
+    deux:["Both","Medicines and medical devices"], autre:["Another health products or services business"]}},
+  groupe:{kicker:"Your company", title:"Is your company the subsidiary of a group?", o:{
+    non:["No"], oui:["Yes","With, where applicable, procedures set by the group"]}},
+  code:{kicker:"Your company", title:"Does your company apply an industry code?", o:{
+    ddp:["The Leem professional ethics rules (DDP)"], medtech:["The MedTech Europe Code","Directly or through our national association"],
+    les_deux:["Both"], groupe:["Only our group's code"], aucun:["None"], nsp:["I don't know"]}},
   acteurs:{kicker:"Your collaborations", title:"Who do you work with?", hint:"Several answers possible.", o:{
     ps:["Healthcare professionals or healthcare students"], experts:["Experts who are not healthcare professionals","Engineers, statisticians, non-clinical researchers"],
     etab:["Hospitals and healthcare facilities"], societes:["Learned societies or professional associations"],
-    patients:["Patient associations"], intermediaires:["Intermediaries","Agencies, event organisers, consultants"],
+    patients:["Patient associations"], patients_ind:["Individual patients","Expert patients, carers"], intermediaires:["Intermediaries","Agencies, event organisers, consultants"],
     aucun:["No collaboration at present"]}},
   projet:{kicker:"Your projects", title:"Is a collaboration being prepared?", o:{
     non:["No, not for now"], bientot:["Yes, within the next three months"], plus_tard:["Yes, later in the year"]}},
   operations:{kicker:"Your collaborations", title:"Which operations do you run or prepare?", hint:"Several answers possible.", o:{
     expertise:["Advisory or expert services, speaking engagements"], board:["Scientific committees or advisory boards"],
-    congres:["Congresses, invitations and hospitality"], dons:["Donations, grants or partnerships"],
-    recherche:["Clinical or observational research"], formation:["Training for professionals"]}},
+    congres:["Invitations and hospitality"], congres_tiers:["Support for third-party congresses","Covering participants, grants"],
+    dons:["Donations, grants or partnerships"],
+    recherche:["Clinical or observational research"], formation:["Training for professionals"], formation_produit:["Product or procedure training"]}},
+  soutien_direct:{kicker:"Congresses", title:"Do you directly cover the registration, travel or accommodation of professionals for congresses organised by third parties?", o:{
+    oui:["Yes"], bourses:["No, we go through educational grants"], nsp:["I don't know"]}},
+  evaluation:{kicker:"Events", title:"Are the events you organise or support submitted to the prior assessment provided for by your code?", hint:"Codeem platform for the DDP, Conference Vetting System for the MedTech Code.", o:{
+    systematique:["Always"], parfois:["Sometimes"], non:["No"], nsp:["I don't know"]}},
   frequence:{kicker:"Your collaborations", title:"How often?", o:{
     rare:["A few operations a year"], reguliere:["About every month"], frequente:["Every week or more"], nsp:["I don't know"]}},
   regles:{kicker:"Before you commit", title:"How do you determine the rules and formalities applicable to each operation?", o:{
@@ -1048,14 +1058,20 @@ var VIG = {
   recon_impossible:["Documents that would be missing.","A file that cannot be reconstructed shows that a step is not being held: approval, supporting records, disclosure. You need to know which.",""],
   modeles_anciens:["Templates to update.","The rules have been substantially revised in recent years. An old template may no longer match the current formalities.",""],
   inconnues:["\"I don't know\" answers.","They reveal no breach: they flag points to clarify, often because the information is spread across several teams.","info"],
-  intermediaires:["Intermediaries framed informally.","A benefit offered through an agency or an organiser remains a benefit offered by the company: the rules also cover benefits provided indirectly (art. L. 1453-3).",""],
+  intermediaires:["Intermediaries framed informally.","A benefit offered through an agency or an organiser remains a benefit offered by the company: the prohibition also covers benefits offered or provided indirectly (art. L. 1453-5).",""],
+  soutien_direct:["Direct support for congress participants.","The MedTech Europe Code prohibits directly covering an identifiable professional for a congress organised by a third party. Support goes through a grant paid to an organisation, which alone selects the participants.",""],
+  eval_absente:["Events not submitted to your code's assessment.","Under the DDP, assessment goes through the Codeem platform, and an incomplete file filed late is inadmissible. Under the MedTech Code, Conference Vetting System approval is required for events within its scope, and its decision binds all members.",""],
+  eval_partielle:["Events assessed case by case.","When the assessment provided for by your code is not systematic, an event that required it may go ahead without it. You need to know which ones do.",""],
+  ddp_patients:["Collaborations with individual patients.","The DDP applicable since 1 January 2026 also cover individual patients: contacts with no commercial or promotional role, a written contract, fair remuneration.","info"],
+  medtech_intermediaires:["Intermediaries, under the MedTech Code.","The MedTech Code further requires a risk assessment, prior and periodic checks, an audit right and training of intermediaries.","info"],
+  code_nsp:["The applicable industry code, to be checked.","Depending on the membership of the company or its group, an industry code may add its own rules to those of the law.","info"],
   alerte:["No procedure for receiving reports.","It is mandatory for companies with at least fifty employees (art. 8 of Law no. 2016-1691 of 9 December 2016).",""],
   alerte_nsp:["Reporting procedure to check.","It is mandatory from fifty employees; below that, it remains optional.","info"],
   formation:["Teams that have not been trained.","The rules apply when the operation is being prepared, by those who organise it. Without training, qualification comes too late, or not at all.",""],
   formation_ancienne:["Training to update.","The rules and their formalities have changed in recent years; old training may no longer match them.","info"],
   verification:["Files that have not been reviewed.","An organisation is judged on its records. Reviewing a few files is often enough to know whether it holds.","info"],
   filiale:["Group procedures to check against French rules.","Procedures designed for several countries rarely address the formalities specific to France. What they cover needs checking.","info"],
-  dm:["A medical device company.","These rules apply to companies that manufacture or market health products, medical devices included (art. L. 1453-1 of the French Public Health Code). Device-specific regulation falls under Concordance.","info"],
+  dm:["A medical device company.","These rules apply to companies that manufacture or market health products, medical devices included (art. L. 1453-1 and L. 1453-5 of the French Public Health Code). Device companies also usually apply the MedTech Europe Code, which is stricter on congresses. Regulation of the product itself falls under Concordance.","info"],
   experts:["Experts who are not healthcare professionals.","They are not all subject to the same rules as healthcare professionals. Each category of participant is qualified separately.","info"],
   recherche:["Clinical research.","Unisson covers the relationship with investigators and its benefits. The rest of the trial framework, and data protection for the study, fall under other engagements.","info"],
   projet:["A project being prepared.","This is the best time: qualifying the operation and preparing the agreement before committing avoids having to regularise afterwards.","good"],
@@ -1088,7 +1104,7 @@ var BRQ = {cadeaux:["Gifts and hospitality policy","You offer gifts or invitatio
 var questions = [], answers = {}, idx = -1;
 function rebuild(){ questions = D.parcours(answers); }
 function posOf(id){ return questions.indexOf(id); }
-function answered(id){ var v = answers[id]; return D.Q[id].multi ? (v && v.length>0) : v !== undefined; }
+function answered(id){ var v = answers[id]; if(D.Q[id].multi) return !!(v && v.length>0); return v !== undefined && D.options(id, answers).some(function(o){ return o.k===v; }); }
 function profilLabel(){ var k = answers.profil; return k ? T.profil.o[k][0] : ""; }
 function actives(){ var a = {}; D.parcours(answers).forEach(function(id){ if(answers[id] !== undefined) a[id] = answers[id]; }); return a; }
 
@@ -1099,7 +1115,7 @@ function intro(){
   box.innerHTML =
     '<p class="label">Before you start</p>'+
     '<h3 class="qtitle">'+esc("Answer for your practices as they are today.")+'</h3>'+
-    '<p class="qhint">'+esc("About fifteen questions, around four minutes. Anything that fits no package is directed to a quote. \"I don't know\" is a useful answer. Your answers stay in your browser, and the result is shown immediately, with no email address.")+'</p>'+
+    '<p class="qhint">'+esc("About fifteen questions, around four minutes. Anything that fits no package is directed to a quote. \"I don't know\" is a useful answer. Your answers stay in your browser, and the result is shown immediately.")+'</p>'+
     '<div class="dnav" style="justify-content:flex-start"><button class="btn btn-ink" type="button" id="start">Start the test</button></div>'+
     '<p class="notice">'+esc("The result is generated automatically from your answers alone, without verification or review of documents. It is an orientation: neither legal advice, nor an opinion, nor a compliance certification.")+'</p>';
   document.getElementById("start").onclick = function(){ answers = {}; rebuild(); go(0); };
@@ -1112,7 +1128,7 @@ function render(){
     '<div class="qmeta"><span>'+esc(t.kicker)+'</span></div>'+
     '<h3 class="qtitle" id="qt" tabindex="-1">'+esc(t.title)+'</h3>'+(t.hint?'<p class="qhint" id="qh">'+esc(t.hint)+'</p>':'')+
     '<div class="qgroup"><div class="opts" role="'+(multi?'group':'radiogroup')+'" aria-labelledby="qt"'+(t.hint?' aria-describedby="qh"':'')+'>'+
-    q.opts.map(function(o){
+    D.options(id, answers).map(function(o){
       var on = multi ? (cur||[]).indexOf(o.k)>-1 : cur===o.k, L = t.o[o.k];
       return '<button type="button" class="opt'+(multi?' multi':'')+'" role="'+(multi?'checkbox':'radio')+'" aria-checked="'+on+'" data-k="'+o.k+'"><span class="mk"></span><span>'+esc(L[0])+(L[1]?'<small>'+esc(L[1])+'</small>':'')+'</span></button>';
     }).join("")+'</div></div>'+
@@ -1228,7 +1244,7 @@ function report(){
     '</form></div>';
 
   html += '<p class="notice">'+esc("This result is generated automatically from your answers alone, without verification or review of documents. It is indicative information and constitutes neither legal advice, nor an opinion, nor a compliance certification. Amounts are starting prices excluding VAT; any engagement is subject to a fee agreement and a prior conflict-of-interest check.")+'</p>'+
-    '<p class="sources">'+esc("Texts cited: French Public Health Code, articles L. 1453-1, L. 1453-3 and L. 1453-7; Law no. 2016-1691 of 9 December 2016, articles 8 and 17.")+'</p>'+
+    '<p class="sources">'+esc("Texts cited: French Public Health Code, articles L. 1453-1, L. 1453-5 and L. 1453-7; Law no. 2016-1691 of 9 December 2016, articles 8 and 17"+(f.ddp?"; Leem, professional ethics rules (DDP)":"")+(f.medtech?"; MedTech Europe, Code of Ethical Business Practice":"")+".")+'</p>'+
     '<div class="dnav" style="justify-content:flex-start"><button type="button" class="linkbtn" id="back">Review my answers</button><button type="button" class="linkbtn" id="restart">Take the test again</button></div>';
   html = '<div class="print-only print-head"><span class="ph-logo">'+(LOGO?'<img src="'+LOGO+'" alt="Hémistiches.">':'<b>Hémistiches.</b>')+'<i aria-hidden="true"></i><span>Unisson</span></span><span>'+esc("Result issued on "+today)+'</span></div>'+carte('', "Your contact")+html+carte(' end', "To discuss this result");
   box.innerHTML = html;

@@ -540,7 +540,7 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         <a class="btn btn-light" href="#test">Faire le test</a>
         <a class="link-quiet" href="#formules">Voir les tarifs</a>
       </div>
-      <p class="facts"><span>Environ quatre minutes</span><span>Gratuit</span><span>Résultat immédiat, sans adresse électronique</span><span>Prix hors taxes</span></p>
+      <p class="facts"><span>Environ quatre minutes</span><span>Gratuit</span><span>Résultat immédiat</span><span>Prix hors taxes</span></p>
     </div>
   </section>
 
@@ -982,20 +982,30 @@ document.querySelectorAll("[data-p]").forEach(function(el){ var v = prixAttr(el.
 
 /* ---------- Textes du questionnaire (structure et embranchements : regles.js) ---------- */
 var T = {
-  profil:{kicker:"Votre entreprise", title:"Quelle est votre entreprise ?", o:{
-    labo:["Un laboratoire pharmaceutique ou de biotechnologie"], filiale:["La filiale française d'un groupe","Avec des procédures définies par le groupe"],
-    dm:["Une entreprise du dispositif médical ou du diagnostic"], autre:["Une autre entreprise de produits ou de prestations de santé"]}},
+  profil:{kicker:"Votre entreprise", title:"Dans quel secteur exercez-vous ?", o:{
+    labo:["Le médicament","Laboratoire pharmaceutique ou de biotechnologie"], dm:["Le dispositif médical ou le diagnostic"],
+    deux:["Les deux","Médicament et dispositif médical"], autre:["Une autre activité de produits ou de prestations de santé"]}},
+  groupe:{kicker:"Votre entreprise", title:"Votre entreprise est-elle la filiale d'un groupe ?", o:{
+    non:["Non"], oui:["Oui","Avec, le cas échéant, des procédures définies par le groupe"]}},
+  code:{kicker:"Votre entreprise", title:"Votre entreprise applique-t-elle un code professionnel ?", o:{
+    ddp:["Les Dispositions déontologiques professionnelles du Leem"], medtech:["Le Code MedTech Europe","Directement ou par notre association nationale"],
+    les_deux:["Les deux"], groupe:["Le seul code de notre groupe"], aucun:["Aucun"], nsp:["Je ne sais pas"]}},
   acteurs:{kicker:"Vos collaborations", title:"Avec qui collaborez-vous ?", hint:"Plusieurs réponses possibles.", o:{
     ps:["Des professionnels de santé ou des étudiants en santé"], experts:["Des experts qui ne sont pas professionnels de santé","Ingénieurs, statisticiens, chercheurs non soignants"],
     etab:["Des établissements de santé"], societes:["Des sociétés savantes ou des associations de professionnels"],
-    patients:["Des associations de patients"], intermediaires:["Des intermédiaires","Agences, organisateurs d'événements, consultants"],
+    patients:["Des associations de patients"], patients_ind:["Des patients à titre individuel","Patients experts, aidants"], intermediaires:["Des intermédiaires","Agences, organisateurs d'événements, consultants"],
     aucun:["Aucune collaboration à ce jour"]}},
   projet:{kicker:"Vos projets", title:"Une collaboration est-elle en préparation ?", o:{
     non:["Non, pas pour l'instant"], bientot:["Oui, dans les trois prochains mois"], plus_tard:["Oui, plus tard dans l'année"]}},
   operations:{kicker:"Vos collaborations", title:"Quelles opérations réalisez-vous ou préparez-vous ?", hint:"Plusieurs réponses possibles.", o:{
     expertise:["Prestations de conseil, d'expertise ou conférences"], board:["Comités scientifiques ou advisory boards"],
-    congres:["Congrès, invitations et hospitalité"], dons:["Dons, subventions ou partenariats"],
-    recherche:["Recherche clinique ou observationnelle"], formation:["Actions de formation des professionnels"]}},
+    congres:["Invitations et hospitalité"], congres_tiers:["Soutien à des congrès organisés par des tiers","Prise en charge de participants, bourses"],
+    dons:["Dons, subventions ou partenariats"], recherche:["Recherche clinique ou observationnelle"],
+    formation:["Actions de formation des professionnels"], formation_produit:["Formations aux produits ou aux procédures"]}},
+  soutien_direct:{kicker:"Les congrès", title:"Prenez-vous en charge directement l'inscription, le voyage ou l'hébergement de professionnels pour des congrès organisés par des tiers ?", o:{
+    oui:["Oui"], bourses:["Non, nous passons par des bourses éducatives"], nsp:["Je ne sais pas"]}},
+  evaluation:{kicker:"Les événements", title:"Les événements que vous organisez ou soutenez sont-ils soumis à l'évaluation préalable prévue par votre code ?", hint:"Plateforme du Codeem pour les DDP, Conference Vetting System pour le Code MedTech.", o:{
+    systematique:["Systématiquement"], parfois:["Parfois"], non:["Non"], nsp:["Je ne sais pas"]}},
   frequence:{kicker:"Vos collaborations", title:"À quel rythme ?", o:{
     rare:["Quelques opérations par an"], reguliere:["Chaque mois environ"], frequente:["Chaque semaine ou davantage"], nsp:["Je ne sais pas"]}},
   regles:{kicker:"Avant de vous engager", title:"Comment déterminez-vous les règles et formalités applicables à chaque opération ?", o:{
@@ -1049,7 +1059,13 @@ var VIG = {
   recon_impossible:["Des pièces qui manqueraient.","Un dossier qui ne se reconstitue pas est le signe qu'une étape n'est pas tenue : validation, justificatifs, déclaration. Il faut savoir laquelle.",""],
   modeles_anciens:["Des modèles à actualiser.","Les règles ont été profondément revues ces dernières années. Un modèle ancien peut ne plus correspondre aux formalités actuelles.",""],
   inconnues:["Des réponses « je ne sais pas ».","Elles ne révèlent aucun manquement : elles signalent des points à clarifier, souvent parce que l'information est répartie entre plusieurs équipes.","info"],
-  intermediaires:["Des intermédiaires encadrés de manière informelle.","Un avantage offert par l'intermédiaire d'une agence ou d'un organisateur reste un avantage offert par l'entreprise : les règles visent aussi les avantages procurés de façon indirecte (art. L. 1453-3).",""],
+  intermediaires:["Des intermédiaires encadrés de manière informelle.","Un avantage offert par l'intermédiaire d'une agence ou d'un organisateur reste un avantage offert par l'entreprise : l'interdiction vise aussi les avantages proposés ou procurés de façon indirecte (art. L. 1453-5).",""],
+  soutien_direct:["Un soutien direct à des participants de congrès.","Le Code MedTech Europe interdit de prendre en charge directement un professionnel identifiable pour un congrès organisé par un tiers. Le soutien passe par une bourse versée à un organisme, qui choisit seul les participants.",""],
+  eval_absente:["Des événements non soumis à l'évaluation de votre code.","Pour les DDP, l'évaluation passe par la plateforme du Codeem, et un dossier incomplet déposé hors délai est irrecevable. Pour le Code MedTech, l'approbation du Conference Vetting System est requise pour les événements de son champ, et sa décision lie tous les membres.",""],
+  eval_partielle:["Une évaluation des événements au cas par cas.","Quand l'évaluation prévue par votre code n'est pas systématique, un événement qui y était soumis peut passer sans elle. Il faut savoir lesquels le sont.",""],
+  ddp_patients:["Des collaborations avec des patients à titre individuel.","Les DDP applicables depuis le 1er janvier 2026 encadrent aussi les patients à titre individuel : interlocuteurs sans fonction commerciale ou promotionnelle, contrat écrit, juste rémunération.","info"],
+  medtech_intermediaires:["Des intermédiaires, au regard du Code MedTech.","Le Code MedTech exige en outre une évaluation des risques, des vérifications préalables et périodiques, un droit d'audit et une formation des intermédiaires.","info"],
+  code_nsp:["Le code professionnel applicable, à vérifier.","Selon l'adhésion de l'entreprise ou de son groupe, un code professionnel peut ajouter ses propres règles à celles de la loi.","info"],
   alerte:["Pas de procédure de recueil des signalements.","Elle est obligatoire pour les entreprises d'au moins cinquante salariés (art. 8 de la loi n° 2016-1691 du 9 décembre 2016).",""],
   alerte_nsp:["Procédure de signalement à vérifier.","Elle est obligatoire à partir de cinquante salariés ; en deçà, elle reste facultative.","info"],
   controle:["Un contrôle ou une enquête en cours.","Une demande d'une autorité se traite tôt, avant que les positions ne se figent. C'est le premier sujet à aborder, sur devis, après un premier échange.",""],
@@ -1057,7 +1073,7 @@ var VIG = {
   formation_ancienne:["Une formation à actualiser.","Les règles et leurs formalités ont évolué ces dernières années ; une formation ancienne peut ne plus y correspondre.","info"],
   verification:["Des dossiers qui n'ont pas été vérifiés.","Une organisation se juge sur pièces. Vérifier quelques dossiers suffit souvent à savoir si elle tient.","info"],
   filiale:["Des procédures de groupe à confronter aux règles françaises.","Des procédures conçues pour plusieurs pays traitent rarement les formalités propres à la France. Il faut vérifier ce qu'elles couvrent.","info"],
-  dm:["Une entreprise du dispositif médical.","Ces règles visent les entreprises qui produisent ou commercialisent des produits de santé, dispositifs médicaux compris (art. L. 1453-1 du code de la santé publique). La réglementation propre au dispositif relève de Concordance.","info"],
+  dm:["Une entreprise du dispositif médical.","Ces règles visent les entreprises qui produisent ou commercialisent des produits de santé, dispositifs médicaux compris (art. L. 1453-1 et L. 1453-5 du code de la santé publique). Les entreprises du dispositif appliquent en outre, le plus souvent, le Code MedTech Europe, plus strict sur les congrès. La réglementation du produit lui-même relève de Concordance.","info"],
   experts:["Des experts qui ne sont pas professionnels de santé.","Ils ne relèvent pas tous des mêmes règles que les professionnels de santé. Chaque catégorie d'intervenant se qualifie à part.","info"],
   recherche:["La recherche clinique.","Unisson traite la relation avec les investigateurs et ses avantages. Le reste du cadre de l'essai, et la protection des données de l'étude, relèvent d'autres missions.","info"],
   projet:["Un projet en préparation.","C'est le meilleur moment : qualifier l'opération et préparer la convention avant de s'engager évite d'avoir à régulariser ensuite.","good"],
@@ -1090,7 +1106,7 @@ var BRQ = {cadeaux:["Politique cadeaux et invitations","Vous offrez des cadeaux 
 var questions = [], answers = {}, idx = -1;
 function rebuild(){ questions = D.parcours(answers); }
 function posOf(id){ return questions.indexOf(id); }
-function answered(id){ var v = answers[id]; return D.Q[id].multi ? (v && v.length>0) : v !== undefined; }
+function answered(id){ var v = answers[id]; if(D.Q[id].multi) return !!(v && v.length>0); return v !== undefined && D.options(id, answers).some(function(o){ return o.k===v; }); }
 function profilLabel(){ var k = answers.profil; return k ? T.profil.o[k][0] : ""; }
 /* Ne garder que les réponses du parcours en cours : une branche abandonnée ne pèse plus. */
 function actives(){ var a = {}; D.parcours(answers).forEach(function(id){ if(answers[id] !== undefined) a[id] = answers[id]; }); return a; }
@@ -1102,7 +1118,7 @@ function intro(){
   box.innerHTML =
     '<p class="label">Avant de commencer</p>'+
     '<h3 class="qtitle">'+esc("Répondez pour vos pratiques telles qu'elles sont aujourd'hui.")+'</h3>'+
-    '<p class="qhint">'+esc("Une quinzaine de questions, environ quatre minutes. Ce qui n'entre dans aucune formule est orienté vers un devis. « Je ne sais pas » est une réponse utile. Vos réponses restent dans votre navigateur, et le résultat s'affiche aussitôt, sans adresse électronique.")+'</p>'+
+    '<p class="qhint">'+esc("Une quinzaine de questions, environ quatre minutes. Ce qui n'entre dans aucune formule est orienté vers un devis. « Je ne sais pas » est une réponse utile. Vos réponses restent dans votre navigateur, et le résultat s'affiche aussitôt.")+'</p>'+
     '<div class="dnav" style="justify-content:flex-start"><button class="btn btn-ink" type="button" id="start">Commencer le test</button></div>'+
     '<p class="notice">'+esc("Le résultat est généré automatiquement à partir de vos seules réponses, sans vérification ni examen de pièces. C'est une orientation : ni une consultation juridique, ni un avis, ni une certification de conformité.")+'</p>';
   document.getElementById("start").onclick = function(){ answers = {}; rebuild(); go(0); };
@@ -1115,7 +1131,7 @@ function render(){
     '<div class="qmeta"><span>'+esc(t.kicker)+'</span></div>'+
     '<h3 class="qtitle" id="qt" tabindex="-1">'+esc(t.title)+'</h3>'+(t.hint?'<p class="qhint" id="qh">'+esc(t.hint)+'</p>':'')+
     '<div class="qgroup"><div class="opts" role="'+(multi?'group':'radiogroup')+'" aria-labelledby="qt"'+(t.hint?' aria-describedby="qh"':'')+'>'+
-    q.opts.map(function(o){
+    D.options(id, answers).map(function(o){
       var on = multi ? (cur||[]).indexOf(o.k)>-1 : cur===o.k, L = t.o[o.k];
       return '<button type="button" class="opt'+(multi?' multi':'')+'" role="'+(multi?'checkbox':'radio')+'" aria-checked="'+on+'" data-k="'+o.k+'"><span class="mk"></span><span>'+esc(L[0])+(L[1]?'<small>'+esc(L[1])+'</small>':'')+'</span></button>';
     }).join("")+'</div></div>'+
@@ -1232,7 +1248,7 @@ function report(){
     '</form></div>';
 
   html += '<p class="notice">'+esc("Ce résultat est généré automatiquement à partir de vos seules réponses, sans vérification ni examen de pièces. Il constitue une information indicative et ne vaut ni consultation juridique, ni avis, ni certification de conformité. Les montants sont des prix d'entrée hors taxes ; toute mission fait l'objet d'une convention d'honoraires et d'une vérification préalable des conflits d'intérêts.")+'</p>'+
-    '<p class="sources">'+esc("Textes cités : code de la santé publique, articles L. 1453-1, L. 1453-3 et L. 1453-7 ; loi n° 2016-1691 du 9 décembre 2016, articles 8 et 17.")+'</p>'+
+    '<p class="sources">'+esc("Textes cités : code de la santé publique, articles L. 1453-1, L. 1453-5 et L. 1453-7 ; loi n° 2016-1691 du 9 décembre 2016, articles 8 et 17"+(f.ddp?" ; Leem, Dispositions déontologiques professionnelles":"")+(f.medtech?" ; MedTech Europe, Code of Ethical Business Practice":"")+".")+'</p>'+
     '<div class="dnav" style="justify-content:flex-start"><button type="button" class="linkbtn" id="back">Revoir mes réponses</button><button type="button" class="linkbtn" id="restart">Refaire le test</button></div>';
   html = '<div class="print-only print-head"><span class="ph-logo">'+(LOGO?'<img src="'+LOGO+'" alt="Hémistiches.">':'<b>Hémistiches.</b>')+'<i aria-hidden="true"></i><span>Unisson</span></span><span>'+esc("Résultat établi le "+today)+'</span></div>'+carte('', "Votre interlocuteur")+html+carte(' end', "Pour échanger sur ce résultat");
   box.innerHTML = html;

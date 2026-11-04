@@ -41,20 +41,31 @@
   function O(k, flags) { return { k: k, flags: flags || [] }; }
 
   var Q = {
+    /* Secteur (4 novembre 2026) : la structure (filiale) est désormais une question distincte. */
     profil: { opts: [
-      O("labo", []), O("filiale", ["filiale"]), O("dm", ["dm"]), O("autre", [])
+      O("labo", []), O("dm", ["dm"]), O("deux", ["dm", "deux"]), O("autre", [])
+    ]},
+    groupe: { opts: [ O("non", []), O("oui", ["filiale"]) ]},
+    /* Conditionnelle : sauf « autre ». Options filtrées selon le secteur (voir options()). */
+    code: { opts: [
+      O("ddp", ["ddp"]), O("medtech", ["medtech"]), O("les_deux", ["ddp", "medtech"]),
+      O("groupe", []), O("aucun", []), O("nsp", ["nsp_mineur", "code_nsp"])
     ]},
     acteurs: { multi: true, exclusive: "aucun", opts: [
       O("ps", ["collab"]), O("experts", ["collab", "experts"]), O("etab", ["collab", "etab"]),
-      O("societes", ["collab"]), O("patients", ["collab", "patients"]), O("intermediaires", ["collab", "intermediaires"]),
+      O("societes", ["collab"]), O("patients", ["collab", "patients"]), O("patients_ind", ["collab", "patients", "patients_ind"]), O("intermediaires", ["collab", "intermediaires"]),
       O("aucun", ["sans_collab"])
     ]},
     /* Branche « aucune collaboration » : un projet est-il en préparation ? */
     projet: { opts: [ O("non", ["pas_projet"]), O("bientot", ["projet", "bientot"]), O("plus_tard", ["projet"]) ]},
     operations: { multi: true, opts: [
-      O("expertise", []), O("board", ["op_collective"]), O("congres", ["op_collective", "congres"]),
-      O("dons", ["op_collective", "dons"]), O("recherche", ["recherche"]), O("formation", [])
+      O("expertise", []), O("board", ["op_collective"]), O("congres", ["op_collective", "congres"]), O("congres_tiers", ["op_collective", "congres", "congres_tiers"]),
+      O("dons", ["op_collective", "dons"]), O("recherche", ["recherche"]), O("formation", ["evenement"]), O("formation_produit", ["evenement"])
     ]},
+    /* Conditionnelle : Code MedTech appliqué et soutien à des congrès organisés par des tiers. */
+    soutien_direct: { opts: [ O("oui", ["faible", "soutien_direct"]), O("bourses", []), O("nsp", ["nsp"]) ]},
+    /* Conditionnelle : un code appliqué et des événements organisés ou soutenus. */
+    evaluation: { opts: [ O("systematique", []), O("parfois", ["faible", "eval_partielle"]), O("non", ["faible", "eval_absente"]), O("nsp", ["nsp"]) ]},
     frequence: { opts: [ O("rare", []), O("reguliere", ["recurrent"]), O("frequente", ["recurrent", "intense"]), O("nsp", ["nsp"]) ]},
     regles: { opts: [
       O("methode", []), O("cas_doc", []), O("cas_oral", ["faible", "qualif_orale"]), O("aucune", ["faible", "qualif_absente"]), O("nsp", ["nsp", "qualif_nsp"])
@@ -90,18 +101,31 @@
   };
   Object.keys(Q).forEach(function (id) { Q[id].id = id; });
 
+  /* Options proposées selon les réponses déjà données (seule la question « code » est filtrée). */
+  function options(id, a) {
+    var os = Q[id].opts; if (id !== "code") return os;
+    var p = a.profil;
+    return os.filter(function (o) {
+      if (o.k === "ddp") return p === "labo" || p === "deux";
+      if (o.k === "medtech") return p === "dm" || p === "deux";
+      if (o.k === "les_deux") return p === "deux";
+      return true;
+    });
+  }
   function opt(id, k) { var os = Q[id].opts; for (var i = 0; i < os.length; i++) if (os[i].k === k) return os[i]; return null; }
   function choisies(id, a) {
     var v = a[id]; if (v === undefined || v === null) return [];
     if (Q[id].multi) return (v || []).map(function (k) { return opt(id, k); }).filter(Boolean);
-    var o = opt(id, v); return o ? [o] : [];
+    var o = opt(id, v); if (o && options(id, a).indexOf(o) < 0) return []; return o ? [o] : [];
   }
   function a_(a, id, k) { var v = a[id]; return Q[id].multi ? (v || []).indexOf(k) > -1 : v === k; }
 
   /* Liste des questions posées, recalculée à chaque réponse : une réponse modifiée en revenant en arrière
      retire les questions qui ne s'appliquent plus, et leurs réponses ne sont plus prises en compte. */
   function parcours(a) {
-    var L = ["profil", "acteurs"];
+    var L = ["profil", "groupe"];
+    if (a.profil && a.profil !== "autre") L.push("code");
+    L.push("acteurs");
     if (a_(a, "acteurs", "aucun")) {
       L.push("projet");
       if (a.projet === "bientot" || a.projet === "plus_tard") L.push("operations");
@@ -109,7 +133,11 @@
       if (a.besoin === "operation") L.push("echeance");
       return L;
     }
-    L.push("operations", "frequence", "regles", "conventions", "justification", "formalites", "reconstitution");
+    L.push("operations");
+    var c = choisies("code", a).reduce(function (m, o) { o.flags.forEach(function (x) { m[x] = true; }); return m; }, {});
+    if (c.medtech && a_(a, "operations", "congres_tiers")) L.push("soutien_direct");
+    if ((c.ddp || c.medtech) && (a_(a, "operations", "congres") || a_(a, "operations", "congres_tiers") || a_(a, "operations", "formation") || a_(a, "operations", "formation_produit"))) L.push("evaluation");
+    L.push("frequence", "regles", "conventions", "justification", "formalites", "reconstitution");
     if (a_(a, "acteurs", "intermediaires")) L.push("intermediaires");
     /* Questions qui ouvrent sur les compléments du socle : posées à toute entreprise qui collabore. */
     L.push("autres", "liens", "formation", "verification", "alerte", "voisins", "besoin");
@@ -199,9 +227,12 @@
     var f = drapeaux(a), k = [];
     if (f.sans_collab) { if (f.devis_controle) k.push("controle"); else if (f.urgent) k.push("urgent"); k.push(f.projet ? "projet" : "aucun"); k.push("reserve"); return k; }
     if (f.devis_controle) k.push("controle"); else if (f.urgent) k.push("urgent");
-    ["sans_ecrit", "partenaire_etat", "qualif_absente", "qualif_orale", "justif_informelle", "formalites_variables", "recon_impossible", "modeles_anciens"].forEach(function (x) { if (f[x]) k.push(x); });
+    ["soutien_direct", "eval_absente", "eval_partielle", "sans_ecrit", "partenaire_etat", "qualif_absente", "qualif_orale", "justif_informelle", "formalites_variables", "recon_impossible", "modeles_anciens"].forEach(function (x) { if (f[x]) k.push(x); });
     if (f.inconnues) k.push("inconnues");
     if (f.inter_informel) k.push("intermediaires");
+    if (f.ddp && f.patients_ind) k.push("ddp_patients");
+    if (f.medtech && f.intermediaires) k.push("medtech_intermediaires");
+    if (f.code_nsp) k.push("code_nsp");
     if (f.brique_alerte) k.push("alerte"); else if (f.alerte_nsp) k.push("alerte_nsp");
     if (f.formation_absente) k.push("formation"); else if (f.formation_manque) k.push("formation_ancienne");
     if (f.jamais_verifie && !f.sans_collab) k.push("verification");
@@ -209,7 +240,7 @@
     if (f.dm) k.push("dm");
     if (f.experts) k.push("experts");
     if (f.recherche) k.push("recherche");
-    var info = ["inconnues", "alerte_nsp", "formation_ancienne", "verification", "filiale", "dm", "experts", "recherche"];
+    var info = ["inconnues", "alerte_nsp", "formation_ancienne", "verification", "filiale", "dm", "experts", "recherche", "ddp_patients", "medtech_intermediaires", "code_nsp"];
     if (!k.some(function (x) { return info.indexOf(x) < 0; }) && !f.inconnues) k.unshift("etabli");
     k.push("reserve");
     return k;
@@ -229,5 +260,5 @@
     return k;
   }
 
-  g.UNISSON = { TARIFS: TARIFS, Q: Q, palier: palier, complement: complement, parcours: parcours, drapeaux: drapeaux, orienter: orienter, indicateurs: indicateurs, points: points, cles: cles };
+  g.UNISSON = { TARIFS: TARIFS, Q: Q, options: options, palier: palier, complement: complement, parcours: parcours, drapeaux: drapeaux, orienter: orienter, indicateurs: indicateurs, points: points, cles: cles };
 })(typeof window !== "undefined" ? window : globalThis);
