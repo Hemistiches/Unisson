@@ -19,8 +19,16 @@
       intermediaires: 1000,    // procédure d'évaluation et clauses types, hors vérifications sur chaque tiers
       conflits: 750,           // conflits d'intérêts liés aux relations avec les acteurs de santé
       alerte: 1200,            // mise en place du dispositif d'alerte, hors exploitation et enquêtes
-      controle: 950            // contrôle sur un échantillon de dix dossiers
+      controle: 950,           // contrôle sur un échantillon de dix dossiers
+      /* Modules ajoutés le 4 novembre 2026 */
+      formation: 1000,         // demi-journée sur cas concrets, une douzaine de participants au plus
+      subventions: 1000,       // dons, subventions et bourses éducatives, circuit CVS compris
+      patients: 800,           // collaborations avec les patients et leurs associations
+      ddp2026: 900,            // mise à jour des modèles et de la procédure aux DDP applicables en 2026
+      groupe: 1200,            // procédures de groupe confrontées au droit français, additif France
+      transparence: 800        // procédure de déclaration Transparence Santé et contrôle des déclarations
     },
+    dossierEvenement: 350,     // par événement, en complément d'une opération : dossier Codeem ou CVS
     suivi: [
       { cle: "limite",   prix: 490,  heures: 3,  aPartirDe: false },
       { cle: "regulier", prix: 990,  heures: 6,  aPartirDe: false },
@@ -191,7 +199,6 @@
     if (r.etat === "a_consolider") r.structuration = large ? "complete" : "essentielle";
     if (r.etat === "etabli" && a.besoin === "outils") r.structuration = large ? "complete" : "essentielle";
     if (r.etat === "etabli" && (a.besoin === "etat" || f.jamais_verifie)) r.briques.push("controle");   // une organisation établie se vérifie sur pièces, sans diagnostic
-    if (r.structuration === "essentielle" && f.formation_manque) r.structuration = "complete";        // la formation n'est comprise que dans la structuration complète
 
     if (a.besoin === "operation") r.operation = (a.operations || []).some(function (k) { return opt("operations", k).flags.indexOf("op_collective") > -1; }) ? "operation" : "collaboration";
 
@@ -200,6 +207,16 @@
     }
 
     ["intermediaires", "cadeaux", "conflits", "alerte"].forEach(function (b) { if (f["brique_" + b]) r.briques.push(b); });
+
+    /* Modules du 4 novembre 2026 : chacun répond à un manque ou à une situation précise, même si le reste est établi. */
+    if (f.formation_manque && r.structuration !== "complete") r.briques.push("formation");   // la formation n'est comprise que dans le socle approfondi
+    if (f.soutien_direct || f.eval_cvs || ((f.dons || f.congres_tiers) && r.etat !== "etabli")) r.briques.push("subventions");
+    if (f.ddp && !r.structuration && !r.diagnostic) r.briques.push("ddp2026");                // couvre aussi les patients au sens des DDP
+    if (f.patients && r.briques.indexOf("ddp2026") < 0 && (r.etat !== "etabli" || f.patients_ind)) r.briques.push("patients");
+    if (f.filiale) r.briques.push("groupe");
+    if (f.formalites_variables || f.formalites_nsp) r.briques.push("transparence");
+    var evts = ["congres", "congres_tiers", "formation", "formation_produit"].some(function (k) { return a_(a, "operations", k); });
+    r.dossier = !!(r.operation && (f.ddp || f.medtech) && evts);
 
     var rien = !r.diagnostic && !r.structuration && !r.operation && !r.suivi && !r.briques.length && !r.devis.length;
     if (a.besoin === "question" || rien) r.consultation = "principale";
@@ -258,6 +275,7 @@
     if (r.diagnostic) k.push("diagnostic");
     if (r.structuration) k.push("structuration:" + r.structuration);
     if (r.operation) k.push(r.operation);
+    if (r.dossier) k.push("dossier_evenement");
     if (r.suivi) k.push("suivi:" + r.suivi.palier);
     r.briques.forEach(function (b) { k.push("brique:" + b); });
     k.push("consultation:" + r.consultation);
