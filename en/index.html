@@ -523,6 +523,36 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
   .three:not(.duo):not(.one) > article:nth-child(3n+1),.three.duo > article:nth-child(2n+1){padding-left:0;border-left:0}
   .three:not(.duo):not(.one) > article:nth-child(n+4),.three.duo > article:nth-child(n+3){border-top:1px solid var(--rule)}
 }
+/* Grille commune sur ordinateur (12 novembre 2026) : titres et intitulés à gauche, texte courant à droite sur un même axe, grilles et tableaux en pleine largeur ; tablette et mobile inchangés */
+@media (min-width:1025px){
+  .sec-head > .sec-text > .cadre:first-child{margin-top:0}
+  .sec-head > .sec-text > .cadre{max-width:62ch}
+  .wrap > .lab-row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);margin-left:0;max-width:none}
+  .wrap > .lab-row > .lab-l{grid-column:1;color:var(--ink);font-weight:400;text-wrap:balance}
+  .wrap > .lab-row > .lab-t{grid-column:2;max-width:76ch}
+  .wrap > .note{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);border-left:0;padding:0;max-width:none}
+  .wrap > .note > h4{grid-column:1;margin:0}
+  .wrap > .note > :not(h4){grid-column:2;max-width:76ch}
+  .wrap > .warn{margin-left:calc((100% - clamp(28px,4vw,64px)) * 5 / 12 + clamp(28px,4vw,64px));max-width:none}
+  .rules > li#outil,.rules > li#outil-ai{grid-template-columns:minmax(0,5fr) minmax(0,3.5fr) minmax(0,3.5fr);column-gap:clamp(28px,4vw,64px)}
+  .rules > li#outil > b,.rules > li#outil-ai > b{grid-column:1;grid-row:1 / span 3;text-wrap:balance}
+  .rules > li#outil > span:nth-of-type(1),.rules > li#outil-ai > span:nth-of-type(1){grid-column:2 / span 2;grid-row:1;padding-right:0}
+  .rules > li#outil > span:nth-of-type(2),.rules > li#outil-ai > span:nth-of-type(2){grid-column:2;grid-row:2}
+  .rules > li#outil > span:nth-of-type(3),.rules > li#outil-ai > span:nth-of-type(3){grid-column:3;grid-row:2}
+  .rules > li#outil > span:nth-of-type(4),.rules > li#outil-ai > span:nth-of-type(4){grid-column:2;grid-row:3}
+  .rules > li#outil > span:nth-of-type(5),.rules > li#outil-ai > span:nth-of-type(5){grid-column:3;grid-row:3}
+}
+/* Listes à deux colonnes : un dernier élément isolé occupe la rangée entière, intitulé à gauche, texte à droite */
+@media (min-width:861px){
+  .rules > li:last-child:nth-child(odd):not(#outil):not(#outil-ai),.rules > li#brique-formation{grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,3vw,48px);row-gap:10px}
+  .rules > li:last-child:nth-child(odd):not(#outil):not(#outil-ai) > b,.rules > li#brique-formation > b{grid-column:1}
+  .rules > li:last-child:nth-child(odd):not(#outil):not(#outil-ai) > :not(b),.rules > li#brique-formation > :not(b){grid-column:2;margin-top:0}
+}
+@media (min-width:1025px){.sec-head > .sec-text > .cadre{max-width:none}}
+@media (min-width:1025px){
+  .sec-head.sub > .sec-text{padding-top:.15em}
+  .wrap > .note > p{font-size:17px;color:var(--mute)}
+}
 </style>
 </head>
 <body>
@@ -730,8 +760,12 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         </article>
       </div>
 
-      <h3 class="sub-h3" id="tarifs-briques">Complete your compliance base</h3>
-      <p class="cadre">The same interactions also expose the company in other ways: a gift to a hospital buyer, an agency inviting on your behalf, an expert linked to the hospital he advises, a report nobody knows how to receive. This is often where the risk concentrates. Each of these components can be ordered on its own, at its own price, with or without the base.</p>
+      <div class="sec-head sub">
+        <h3 class="sub-h3" id="tarifs-briques">Complete your compliance base</h3>
+        <div class="sec-text">
+          <p class="cadre">The same interactions also expose the company in other ways: a gift to a hospital buyer, an agency inviting on your behalf, an expert linked to the hospital he advises, a report nobody knows how to receive. This is often where the risk concentrates. Each of these components can be ordered on its own, at its own price, with or without the base.</p>
+        </div>
+      </div>
       <h4 class="sub-h4">Around healthcare professionals</h4>
       <div class="three">
         <article id="brique-formation">
@@ -915,10 +949,10 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         <li><b>Term</b><span>No minimum term, one month's notice on either side. No standby or guaranteed immediate availability.</span></li>
       </ul>
 
-      <p class="cadre"><strong>Other compliance needs.</strong> Anti-corruption programme, operating a whistleblowing procedure and internal investigations, review of a partner portfolio, in-depth or recurring reviews: quoted. To carry them over time, together with the rest of your legal life, <a href="https://cadence.hemistiches.com/en/" target="_blank" rel="noopener">Cadence</a> provides the outsourced legal department. In the usual case for companies, Article 17 of the French Sapin II law applies to directors if the company has at least 500 employees or belongs to a group with at least 500 employees whose parent company is headquartered in France, and if turnover, consolidated where applicable, exceeds €100 million.</p>
-      <p class="cadre"><strong>What Unisson does not include.</strong> Advertising of health products, marketing authorisations, pharmacovigilance, market access, product regulation, the full framework of clinical trials, competition law and international sanctions. For research, Unisson covers the relationship with investigators and its benefits; the agreement with the hospital and the rest of the trial framework are quoted separately, and data protection for the study falls under <a href="https://diapason.hemistiches.com/en/" target="_blank" rel="noopener">Diapason</a>.</p>
-      <p class="cadre"><strong>Prices excluding VAT.</strong> VAT at 20% is added for clients established in France; for a business client established in another Member State, it is self-assessed by the client. If we agree, the engagement is set out in a signed fee agreement before any work begins, which defines the scope, its exclusions and how the price is determined. It is preceded by a conflict-of-interest check.</p>
-      <p class="cadre"><strong>And for the rest?</strong> Unisson covers interactions with healthcare stakeholders; <a href="https://cadence.hemistiches.com/en/" target="_blank" rel="noopener">Cadence</a> the outsourced legal department; <a href="https://diapason.hemistiches.com/en/" target="_blank" rel="noopener">Diapason</a> data protection, including the professionals' data published for transparency; <a href="https://concordance.hemistiches.com/en/" target="_blank" rel="noopener">Concordance</a> medical device compliance. It is the same lawyer: work already done for you in one is reused, never invoiced twice.</p>
+      <p class="cadre lab-row"><b class="lab-l">Other compliance needs.</b> <span class="lab-t">Anti-corruption programme, operating a whistleblowing procedure and internal investigations, review of a partner portfolio, in-depth or recurring reviews: quoted. To carry them over time, together with the rest of your legal life, <a href="https://cadence.hemistiches.com/en/" target="_blank" rel="noopener">Cadence</a> provides the outsourced legal department. In the usual case for companies, Article 17 of the French Sapin II law applies to directors if the company has at least 500 employees or belongs to a group with at least 500 employees whose parent company is headquartered in France, and if turnover, consolidated where applicable, exceeds €100 million.</span></p>
+      <p class="cadre lab-row"><b class="lab-l">What Unisson does not include.</b> <span class="lab-t">Advertising of health products, marketing authorisations, pharmacovigilance, market access, product regulation, the full framework of clinical trials, competition law and international sanctions. For research, Unisson covers the relationship with investigators and its benefits; the agreement with the hospital and the rest of the trial framework are quoted separately, and data protection for the study falls under <a href="https://diapason.hemistiches.com/en/" target="_blank" rel="noopener">Diapason</a>.</span></p>
+      <p class="cadre lab-row"><b class="lab-l">Prices excluding VAT.</b> <span class="lab-t">VAT at 20% is added for clients established in France; for a business client established in another Member State, it is self-assessed by the client. If we agree, the engagement is set out in a signed fee agreement before any work begins, which defines the scope, its exclusions and how the price is determined. It is preceded by a conflict-of-interest check.</span></p>
+      <p class="cadre lab-row"><b class="lab-l">And for the rest?</b> <span class="lab-t">Unisson covers interactions with healthcare stakeholders; <a href="https://cadence.hemistiches.com/en/" target="_blank" rel="noopener">Cadence</a> the outsourced legal department; <a href="https://diapason.hemistiches.com/en/" target="_blank" rel="noopener">Diapason</a> data protection, including the professionals' data published for transparency; <a href="https://concordance.hemistiches.com/en/" target="_blank" rel="noopener">Concordance</a> medical device compliance. It is the same lawyer: work already done for you in one is reused, never invoiced twice.</span></p>
     </div>
   </section>
 
