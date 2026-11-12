@@ -484,6 +484,21 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
 }
 .sub-h4{font-size:clamp(17px,1.4vw,20px);font-weight:400;color:var(--mute);margin:clamp(32px,4vw,48px) 0 0}
 .sub-h4 + .three{margin-top:14px}
+/* Accroche en deux hémistiches sur ordinateur, comme l’accueil d’Hémistiches (12 novembre 2026) ; tablette et mobile inchangés */
+.hero h1 .hemi{display:inline}
+.hero-side{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(22px,3vw,40px)}
+@media (min-width:1025px){
+  .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);column-gap:clamp(28px,4vw,64px);row-gap:clamp(28px,3.4vw,48px);align-content:end}
+  .hero .who{grid-column:1 / -1;margin-bottom:clamp(8px,2vw,32px)}
+  .hero h1{grid-column:1 / -1;max-width:none;display:grid;grid-template-columns:subgrid;font-size:clamp(46px,5.2vw,76px);line-height:1.05}
+  .hero h1 .hemi{display:block;text-wrap:balance}
+  .hero h1 .hemi-1{grid-column:1}
+  .hero h1 .hemi-2{grid-column:3;padding-top:.62em}
+  .hero h1 .cesure{grid-column:2;grid-row:1;display:block;width:1px;height:auto;margin:.12em 0 .06em;align-self:stretch}
+  .hero-side{grid-column:3}
+  .hero .lede{max-width:44ch}
+  .hero .facts{column-gap:18px}
+}
 </style>
 </head>
 <body>
@@ -537,13 +552,15 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
   <section class="hero" id="top" aria-labelledby="titre">
     <div class="wrap">
       <p class="who"><strong>Unisson</strong><span>Interactions with healthcare professionals: framework and integrity, by Hémistiches</span></p>
-      <h1 id="titre">Are your collaborations with healthcare stakeholders<span class="cesure" aria-hidden="true"></span> properly framed?</h1>
-      <p class="lede">Experts, scientific committees, congresses, donations and partnerships: each collaboration must be qualified, formalised and documented under French rules. Take the test: it starts from your practices and projects, then points you to the right package, with its starting price and assumptions.</p>
-      <div class="actions">
-        <a class="btn btn-light" href="#test">Take the test</a>
-        <a class="link-quiet" href="#formules">See the fees</a>
+      <h1 id="titre"><span class="hemi hemi-1">Are your collaborations with healthcare stakeholders</span><span class="cesure" aria-hidden="true"></span><span class="hemi hemi-2"> properly framed?</span></h1>
+      <div class="hero-side">
+        <p class="lede">Experts, scientific committees, congresses, donations and partnerships: each collaboration must be qualified, formalised and documented under French rules. Take the test: it starts from your practices and projects, then points you to the right package, with its starting price and assumptions.</p>
+        <div class="actions">
+          <a class="btn btn-light" href="#test">Take the test</a>
+          <a class="link-quiet" href="#formules">See the fees</a>
+        </div>
+        <p class="facts"><span>About five minutes</span><span>Free</span><span>Immediate result</span><span>Prices excluding VAT</span></p>
       </div>
-      <p class="facts"><span>About five minutes</span><span>Free</span><span>Immediate result</span><span>Prices excluding VAT</span></p>
     </div>
   </section>
 
