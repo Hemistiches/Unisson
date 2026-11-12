@@ -369,7 +369,7 @@ h1,h2,h3,h4{margin:0;font-weight:300;line-height:1.1;letter-spacing:-0.01em;text
   @page{margin:16mm 14mm}
   :root{background:#fff}
   body{background:#fff;color:#000;font-size:11pt}
-  body::before,.skip,.top,.drawer,.contact,.hero,.cesure-s,.fonction-s,.formules-s,.delegue-s,.conviction,.cadre-s,#test > .wrap > h2,#test > .wrap > .intro,.no-print,.dnav,.contactbox button,.contactbox a{display:none!important}
+  body::before,.skip,.top,.drawer,.contact,.hero,.cesure-s,.fonction-s,.formules-s,.delegue-s,.conviction,.cadre-s,#test .sec-head,.no-print,.dnav,.contactbox button,.contactbox a{display:none!important}
   .test-s{padding:0}
   .wrap{padding:0!important;max-width:none}
   .diagbox{border:0;margin:0;padding:0;max-width:none}
@@ -499,6 +499,18 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
   .hero .lede{max-width:44ch}
   .hero .facts{column-gap:18px}
 }
+/* En-têtes de section en deux colonnes sur ordinateur : titre à gauche, texte à droite (12 novembre 2026) ; tablette et mobile inchangés */
+@media (min-width:1025px){
+  .sec-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);align-items:start}
+  .sec-head > .label{grid-column:1 / -1}
+  .sec-head > .sec-h2,.sec-head > .rules-h,.sec-head > .sub-h3{grid-column:1;margin-bottom:0;text-wrap:balance}
+  .sec-head > .sec-text{grid-column:2;padding-top:.5em}
+  .sec-head > .sec-text > .intro:first-child{margin-top:0}
+  .sec-head > .sec-text > .intro{max-width:62ch}
+  .sec-head.sub{margin-top:clamp(48px,6vw,80px)}
+  .sec-head.sub > .rules-h{margin-top:0}
+  .test-s .diagbox{max-width:none;margin-left:calc((100% - clamp(28px,4vw,64px)) * 5 / 12 + clamp(28px,4vw,64px))}
+}
 </style>
 </head>
 <body>
@@ -579,8 +591,12 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
 
   <section class="fonction-s" id="fonction" aria-labelledby="t-fct">
     <div class="wrap">
-      <h2 class="sec-h2" id="t-fct">Ce que couvre Unisson</h2>
-      <p class="intro">Deux dispositifs distincts encadrent ces relations. Le premier, dit « anti-cadeaux », encadre l’offre et la réception d’avantages. Le second, dit de « transparence », impose de publier certaines informations sur les collaborations. Pour chaque opération, il faut déterminer lequel de ces dispositifs s’applique, ou si les deux s’appliquent.</p>
+      <div class="sec-head">
+        <h2 class="sec-h2" id="t-fct">Ce que couvre Unisson</h2>
+        <div class="sec-text">
+          <p class="intro">Deux dispositifs distincts encadrent ces relations. Le premier, dit « anti-cadeaux », encadre l’offre et la réception d’avantages. Le second, dit de « transparence », impose de publier certaines informations sur les collaborations. Pour chaque opération, il faut déterminer lequel de ces dispositifs s’applique, ou si les deux s’appliquent.</p>
+        </div>
+      </div>
       <ul class="fonctions">
         <li><b>Experts et prestations</b><span>Conseil, expertise, conférences : documenter le besoin et la prestation attendue. La rémunération doit être proportionnée au service rendu. L’indemnisation et le défraiement sont limités aux coûts effectivement supportés (art. L. 1453-7, 1° du code de la santé publique).</span></li>
         <li><b>Comités scientifiques</b><span>Advisory boards et groupes d'experts : choix des participants, conventions, justification des montants.</span></li>
@@ -597,17 +613,25 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
 
   <section class="test-s" id="test" aria-labelledby="t-test">
     <div class="wrap">
-      <h2 class="sec-h2" id="t-test">Vos collaborations sont-elles à l'unisson ?</h2>
-      <p class="intro">Des questions sur vos pratiques et vos projets, accessibles à un dirigeant comme à un responsable opérationnel. Le parcours s'adapte à vos réponses et ne vous demande ni nom, ni contrat, ni détail de dossier.</p>
+      <div class="sec-head">
+        <h2 class="sec-h2" id="t-test">Vos collaborations sont-elles à l'unisson ?</h2>
+        <div class="sec-text">
+          <p class="intro">Des questions sur vos pratiques et vos projets, accessibles à un dirigeant comme à un responsable opérationnel. Le parcours s'adapte à vos réponses et ne vous demande ni nom, ni contrat, ni détail de dossier.</p>
+        </div>
+      </div>
       <div class="diagbox" id="diagbox" aria-live="polite"><noscript><p class="qhint">Le test fonctionne dans votre navigateur et nécessite JavaScript. Vous pouvez aussi écrire directement à francois.cesure@hemistiches.com.</p></noscript></div>
     </div>
   </section>
 
   <section class="delegue-s" id="parcours" aria-labelledby="t-parcours">
     <div class="wrap">
-      <p class="label">Comment travailler ensemble</p>
-      <h2 class="sec-h2" id="t-parcours">Trois besoins distincts, chacun à son prix</h2>
-      <p class="intro">Vous pouvez confier une opération ponctuelle au cabinet. Si vos procédures et vos responsabilités sont déjà définies, vous pouvez aussi démarrer directement par un suivi.</p>
+      <div class="sec-head">
+        <p class="label">Comment travailler ensemble</p>
+        <h2 class="sec-h2" id="t-parcours">Trois besoins distincts, chacun à son prix</h2>
+        <div class="sec-text">
+          <p class="intro">Vous pouvez confier une opération ponctuelle au cabinet. Si vos procédures et vos responsabilités sont déjà définies, vous pouvez aussi démarrer directement par un suivi.</p>
+        </div>
+      </div>
       <ol class="steps3">
         <li>
           <span class="when">Au cas par cas</span>
@@ -636,8 +660,12 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
 
   <section class="formules-s" id="formules" aria-labelledby="t-form">
     <div class="wrap">
-      <h2 class="sec-h2" id="t-form">Tarifs</h2>
-      <p class="intro">Tous les prix s'entendent hors taxes. Chaque forfait repose sur un périmètre convenu par écrit : une entité française, un périmètre France, un nombre défini de documents, de réunions et de versions, et l'adaptation de modèles éprouvés plutôt qu'une rédaction intégralement sur mesure. Un dossier qui sort de ces hypothèses fait l'objet d'un devis, arrêté avant toute intervention.</p>
+      <div class="sec-head">
+        <h2 class="sec-h2" id="t-form">Tarifs</h2>
+        <div class="sec-text">
+          <p class="intro">Tous les prix s'entendent hors taxes. Chaque forfait repose sur un périmètre convenu par écrit : une entité française, un périmètre France, un nombre défini de documents, de réunions et de versions, et l'adaptation de modèles éprouvés plutôt qu'une rédaction intégralement sur mesure. Un dossier qui sort de ces hypothèses fait l'objet d'un devis, arrêté avant toute intervention.</p>
+        </div>
+      </div>
 
       <h3 class="sub-h3" id="tarifs-debut">Pour commencer</h3>
       <div class="three duo">

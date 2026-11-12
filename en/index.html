@@ -369,7 +369,7 @@ h1,h2,h3,h4{margin:0;font-weight:300;line-height:1.1;letter-spacing:-0.01em;text
   @page{margin:16mm 14mm}
   :root{background:#fff}
   body{background:#fff;color:#000;font-size:11pt}
-  body::before,.skip,.top,.drawer,.contact,.hero,.cesure-s,.fonction-s,.formules-s,.delegue-s,.conviction,.cadre-s,#test > .wrap > h2,#test > .wrap > .intro,.no-print,.dnav,.contactbox button,.contactbox a{display:none!important}
+  body::before,.skip,.top,.drawer,.contact,.hero,.cesure-s,.fonction-s,.formules-s,.delegue-s,.conviction,.cadre-s,#test .sec-head,.no-print,.dnav,.contactbox button,.contactbox a{display:none!important}
   .test-s{padding:0}
   .wrap{padding:0!important;max-width:none}
   .diagbox{border:0;margin:0;padding:0;max-width:none}
@@ -499,6 +499,18 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
   .hero .lede{max-width:44ch}
   .hero .facts{column-gap:18px}
 }
+/* En-têtes de section en deux colonnes sur ordinateur : titre à gauche, texte à droite (12 novembre 2026) ; tablette et mobile inchangés */
+@media (min-width:1025px){
+  .sec-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);align-items:start}
+  .sec-head > .label{grid-column:1 / -1}
+  .sec-head > .sec-h2,.sec-head > .rules-h,.sec-head > .sub-h3{grid-column:1;margin-bottom:0;text-wrap:balance}
+  .sec-head > .sec-text{grid-column:2;padding-top:.5em}
+  .sec-head > .sec-text > .intro:first-child{margin-top:0}
+  .sec-head > .sec-text > .intro{max-width:62ch}
+  .sec-head.sub{margin-top:clamp(48px,6vw,80px)}
+  .sec-head.sub > .rules-h{margin-top:0}
+  .test-s .diagbox{max-width:none;margin-left:calc((100% - clamp(28px,4vw,64px)) * 5 / 12 + clamp(28px,4vw,64px))}
+}
 </style>
 </head>
 <body>
@@ -579,8 +591,12 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
 
   <section class="fonction-s" id="fonction" aria-labelledby="t-fct">
     <div class="wrap">
-      <h2 class="sec-h2" id="t-fct">What Unisson covers</h2>
-      <p class="intro">Two separate French regimes govern these interactions. The anti-gift rules govern the offer and receipt of benefits. The transparency rules require certain information about collaborations to be made public. Check which regime applies to each operation, as both may apply.</p>
+      <div class="sec-head">
+        <h2 class="sec-h2" id="t-fct">What Unisson covers</h2>
+        <div class="sec-text">
+          <p class="intro">Two separate French regimes govern these interactions. The anti-gift rules govern the offer and receipt of benefits. The transparency rules require certain information about collaborations to be made public. Check which regime applies to each operation, as both may apply.</p>
+        </div>
+      </div>
       <ul class="fonctions">
         <li><b>Experts and services</b><span>Advice, expertise and speaking engagements: document the need and the services expected. Fees must be proportionate to the services provided. Compensation and expenses are limited to costs actually incurred (French Public Health Code, art. L. 1453-7, 1°).</span></li>
         <li><b>Scientific committees</b><span>Advisory boards and expert groups: selecting participants, agreements, justifying the amounts.</span></li>
@@ -597,17 +613,25 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
 
   <section class="test-s" id="test" aria-labelledby="t-test">
     <div class="wrap">
-      <h2 class="sec-h2" id="t-test">Are your collaborations in unison?</h2>
-      <p class="intro">Questions on your practices and projects, accessible to a managing director as well as an operational manager. The path adapts to your answers and never asks for a name, a contract or case details.</p>
+      <div class="sec-head">
+        <h2 class="sec-h2" id="t-test">Are your collaborations in unison?</h2>
+        <div class="sec-text">
+          <p class="intro">Questions on your practices and projects, accessible to a managing director as well as an operational manager. The path adapts to your answers and never asks for a name, a contract or case details.</p>
+        </div>
+      </div>
       <div class="diagbox" id="diagbox" aria-live="polite"><noscript><p class="qhint">The test runs in your browser and requires JavaScript. You can also write directly to francois.cesure@hemistiches.com.</p></noscript></div>
     </div>
   </section>
 
   <section class="delegue-s" id="parcours" aria-labelledby="t-parcours">
     <div class="wrap">
-      <p class="label">How we work together</p>
-      <h2 class="sec-h2" id="t-parcours">Three distinct needs, each with its own price</h2>
-      <p class="intro">You can ask the firm to assist with a single operation. If your procedures and responsibilities are already defined, you can also start directly with ongoing support.</p>
+      <div class="sec-head">
+        <p class="label">How we work together</p>
+        <h2 class="sec-h2" id="t-parcours">Three distinct needs, each with its own price</h2>
+        <div class="sec-text">
+          <p class="intro">You can ask the firm to assist with a single operation. If your procedures and responsibilities are already defined, you can also start directly with ongoing support.</p>
+        </div>
+      </div>
       <ol class="steps3">
         <li>
           <span class="when">Case by case</span>
@@ -636,8 +660,12 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
 
   <section class="formules-s" id="formules" aria-labelledby="t-form">
     <div class="wrap">
-      <h2 class="sec-h2" id="t-form">Fees</h2>
-      <p class="intro">All prices exclude VAT. Each fixed fee rests on a scope agreed in writing: one French entity, a French scope, a defined number of documents, meetings and versions, and the adaptation of proven templates rather than fully bespoke drafting. A matter outside these assumptions is quoted before any work begins.</p>
+      <div class="sec-head">
+        <h2 class="sec-h2" id="t-form">Fees</h2>
+        <div class="sec-text">
+          <p class="intro">All prices exclude VAT. Each fixed fee rests on a scope agreed in writing: one French entity, a French scope, a defined number of documents, meetings and versions, and the adaptation of proven templates rather than fully bespoke drafting. A matter outside these assumptions is quoted before any work begins.</p>
+        </div>
+      </div>
 
       <h3 class="sub-h3" id="tarifs-debut">To begin</h3>
       <div class="three duo">
