@@ -523,6 +523,36 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
   .three:not(.duo):not(.one) > article:nth-child(3n+1),.three.duo > article:nth-child(2n+1){padding-left:0;border-left:0}
   .three:not(.duo):not(.one) > article:nth-child(n+4),.three.duo > article:nth-child(n+3){border-top:1px solid var(--rule)}
 }
+/* Grille commune sur ordinateur (12 novembre 2026) : titres et intitulés à gauche, texte courant à droite sur un même axe, grilles et tableaux en pleine largeur ; tablette et mobile inchangés */
+@media (min-width:1025px){
+  .sec-head > .sec-text > .cadre:first-child{margin-top:0}
+  .sec-head > .sec-text > .cadre{max-width:62ch}
+  .wrap > .lab-row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);margin-left:0;max-width:none}
+  .wrap > .lab-row > .lab-l{grid-column:1;color:var(--ink);font-weight:400;text-wrap:balance}
+  .wrap > .lab-row > .lab-t{grid-column:2;max-width:76ch}
+  .wrap > .note{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);border-left:0;padding:0;max-width:none}
+  .wrap > .note > h4{grid-column:1;margin:0}
+  .wrap > .note > :not(h4){grid-column:2;max-width:76ch}
+  .wrap > .warn{margin-left:calc((100% - clamp(28px,4vw,64px)) * 5 / 12 + clamp(28px,4vw,64px));max-width:none}
+  .rules > li#outil,.rules > li#outil-ai{grid-template-columns:minmax(0,5fr) minmax(0,3.5fr) minmax(0,3.5fr);column-gap:clamp(28px,4vw,64px)}
+  .rules > li#outil > b,.rules > li#outil-ai > b{grid-column:1;grid-row:1 / span 3;text-wrap:balance}
+  .rules > li#outil > span:nth-of-type(1),.rules > li#outil-ai > span:nth-of-type(1){grid-column:2 / span 2;grid-row:1;padding-right:0}
+  .rules > li#outil > span:nth-of-type(2),.rules > li#outil-ai > span:nth-of-type(2){grid-column:2;grid-row:2}
+  .rules > li#outil > span:nth-of-type(3),.rules > li#outil-ai > span:nth-of-type(3){grid-column:3;grid-row:2}
+  .rules > li#outil > span:nth-of-type(4),.rules > li#outil-ai > span:nth-of-type(4){grid-column:2;grid-row:3}
+  .rules > li#outil > span:nth-of-type(5),.rules > li#outil-ai > span:nth-of-type(5){grid-column:3;grid-row:3}
+}
+/* Listes à deux colonnes : un dernier élément isolé occupe la rangée entière, intitulé à gauche, texte à droite */
+@media (min-width:861px){
+  .rules > li:last-child:nth-child(odd):not(#outil):not(#outil-ai),.rules > li#brique-formation{grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,3vw,48px);row-gap:10px}
+  .rules > li:last-child:nth-child(odd):not(#outil):not(#outil-ai) > b,.rules > li#brique-formation > b{grid-column:1}
+  .rules > li:last-child:nth-child(odd):not(#outil):not(#outil-ai) > :not(b),.rules > li#brique-formation > :not(b){grid-column:2;margin-top:0}
+}
+@media (min-width:1025px){.sec-head > .sec-text > .cadre{max-width:none}}
+@media (min-width:1025px){
+  .sec-head.sub > .sec-text{padding-top:.15em}
+  .wrap > .note > p{font-size:17px;color:var(--mute)}
+}
 </style>
 </head>
 <body>
@@ -730,8 +760,12 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         </article>
       </div>
 
-      <h3 class="sub-h3" id="tarifs-briques">Compléter le socle de votre conformité</h3>
-      <p class="cadre">Les mêmes relations exposent aussi l'entreprise par d'autres voies : un cadeau à un acheteur hospitalier, une agence qui invite pour votre compte, un expert lié à l'établissement qu'il conseille, un signalement que personne ne sait recevoir. C'est souvent là que le risque se concentre. Chacun de ces volets se commande seul, à son prix, avec ou sans le socle.</p>
+      <div class="sec-head sub">
+        <h3 class="sub-h3" id="tarifs-briques">Compléter le socle de votre conformité</h3>
+        <div class="sec-text">
+          <p class="cadre">Les mêmes relations exposent aussi l'entreprise par d'autres voies : un cadeau à un acheteur hospitalier, une agence qui invite pour votre compte, un expert lié à l'établissement qu'il conseille, un signalement que personne ne sait recevoir. C'est souvent là que le risque se concentre. Chacun de ces volets se commande seul, à son prix, avec ou sans le socle.</p>
+        </div>
+      </div>
       <h4 class="sub-h4">Autour des professionnels de santé</h4>
       <div class="three">
         <article id="brique-formation">
@@ -915,10 +949,10 @@ h1,h2,.hero .slogan,.drawer nav a,.axes .num{font-weight:200}
         <li><b>Durée</b><span>Sans durée minimale, un mois de préavis de part et d'autre. Ni permanence ni disponibilité immédiate garanties.</span></li>
       </ul>
 
-      <p class="cadre"><strong>Les autres besoins de conformité.</strong> Prévention de la corruption, exploitation d'un dispositif d'alerte et enquêtes internes, revue d'un portefeuille de partenaires, contrôles approfondis ou récurrents : sur devis. Pour les porter dans la durée, avec l'ensemble de votre vie juridique, <a href="https://cadence.hemistiches.com" target="_blank" rel="noopener">Cadence</a> assure la direction juridique externalisée. Dans le cas général des sociétés, l’article 17 de la loi Sapin II vise les dirigeants si la société emploie au moins 500 salariés ou appartient à un groupe d’au moins 500 salariés dont la société mère a son siège en France, et si le chiffre d’affaires, le cas échéant consolidé, dépasse 100 millions d’euros.</p>
-      <p class="cadre"><strong>Ce qu'Unisson ne comprend pas.</strong> La publicité des produits de santé, l'autorisation de mise sur le marché, la pharmacovigilance, l'accès au marché, la réglementation des produits, le cadre complet des essais cliniques, le droit de la concurrence et les sanctions internationales. Pour une recherche, Unisson traite la relation avec les investigateurs et ses avantages ; la convention avec l'établissement et le reste du cadre de l'essai sont chiffrés à part, et la protection des données de l'étude relève de <a href="https://diapason.hemistiches.com" target="_blank" rel="noopener">Diapason</a>.</p>
-      <p class="cadre"><strong>Prix hors taxes.</strong> La taxe sur la valeur ajoutée au taux de 20 % s'y ajoute pour les clients établis en France. En cas d'accord, la mission fait l'objet d'une convention d'honoraires signée avant toute intervention, qui fixe le périmètre, ses exclusions et les modalités de détermination du prix. Elle est précédée d'une vérification des conflits d'intérêts.</p>
-      <p class="cadre"><strong>Et pour le reste ?</strong> Unisson couvre les relations avec les acteurs de santé ; <a href="https://cadence.hemistiches.com" target="_blank" rel="noopener">Cadence</a> la direction juridique externalisée ; <a href="https://diapason.hemistiches.com" target="_blank" rel="noopener">Diapason</a> la protection des données, y compris celles des professionnels publiées au titre de la transparence ; <a href="https://concordance.hemistiches.com" target="_blank" rel="noopener">Concordance</a> la conformité des dispositifs médicaux. C'est le même avocat : un travail déjà accompli pour vous dans l'une est réutilisé, jamais facturé deux fois.</p>
+      <p class="cadre lab-row"><b class="lab-l">Les autres besoins de conformité.</b> <span class="lab-t">Prévention de la corruption, exploitation d'un dispositif d'alerte et enquêtes internes, revue d'un portefeuille de partenaires, contrôles approfondis ou récurrents : sur devis. Pour les porter dans la durée, avec l'ensemble de votre vie juridique, <a href="https://cadence.hemistiches.com" target="_blank" rel="noopener">Cadence</a> assure la direction juridique externalisée. Dans le cas général des sociétés, l’article 17 de la loi Sapin II vise les dirigeants si la société emploie au moins 500 salariés ou appartient à un groupe d’au moins 500 salariés dont la société mère a son siège en France, et si le chiffre d’affaires, le cas échéant consolidé, dépasse 100 millions d’euros.</span></p>
+      <p class="cadre lab-row"><b class="lab-l">Ce qu'Unisson ne comprend pas.</b> <span class="lab-t">La publicité des produits de santé, l'autorisation de mise sur le marché, la pharmacovigilance, l'accès au marché, la réglementation des produits, le cadre complet des essais cliniques, le droit de la concurrence et les sanctions internationales. Pour une recherche, Unisson traite la relation avec les investigateurs et ses avantages ; la convention avec l'établissement et le reste du cadre de l'essai sont chiffrés à part, et la protection des données de l'étude relève de <a href="https://diapason.hemistiches.com" target="_blank" rel="noopener">Diapason</a>.</span></p>
+      <p class="cadre lab-row"><b class="lab-l">Prix hors taxes.</b> <span class="lab-t">La taxe sur la valeur ajoutée au taux de 20 % s'y ajoute pour les clients établis en France. En cas d'accord, la mission fait l'objet d'une convention d'honoraires signée avant toute intervention, qui fixe le périmètre, ses exclusions et les modalités de détermination du prix. Elle est précédée d'une vérification des conflits d'intérêts.</span></p>
+      <p class="cadre lab-row"><b class="lab-l">Et pour le reste ?</b> <span class="lab-t">Unisson couvre les relations avec les acteurs de santé ; <a href="https://cadence.hemistiches.com" target="_blank" rel="noopener">Cadence</a> la direction juridique externalisée ; <a href="https://diapason.hemistiches.com" target="_blank" rel="noopener">Diapason</a> la protection des données, y compris celles des professionnels publiées au titre de la transparence ; <a href="https://concordance.hemistiches.com" target="_blank" rel="noopener">Concordance</a> la conformité des dispositifs médicaux. C'est le même avocat : un travail déjà accompli pour vous dans l'une est réutilisé, jamais facturé deux fois.</span></p>
     </div>
   </section>
 
