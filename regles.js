@@ -211,7 +211,7 @@
     /* Modules du 4 novembre 2026 : chacun répond à un manque ou à une situation précise, même si le reste est établi. */
     if (f.formation_manque && r.structuration !== "complete") r.briques.push("formation");   // la formation n'est comprise que dans le socle approfondi
     if (f.soutien_direct || f.eval_cvs || ((f.dons || f.congres_tiers) && r.etat !== "etabli")) r.briques.push("subventions");
-    if ((f.ddp || f.medtech) && !r.structuration && !r.diagnostic) r.briques.push("ddp2026");   // DDP du Leem ou Code MedTech Europe (6 novembre 2026)                // couvre aussi les patients au sens des DDP
+    if ((f.ddp || f.medtech) && f.modeles_anciens && !r.structuration && !r.diagnostic) r.briques.push("ddp2026");   // DDP du Leem ou Code MedTech Europe (6 novembre 2026)                // couvre aussi les patients au sens des DDP
     if (f.patients && r.briques.indexOf("ddp2026") < 0 && (r.etat !== "etabli" || f.patients_ind)) r.briques.push("patients");
     if (f.filiale) r.briques.push("groupe");
     if (f.formalites_variables || f.formalites_nsp) r.briques.push("transparence");
