@@ -1456,7 +1456,7 @@ function report(){
   html += '<div class="rsec no-print"><h4>Keep this result</h4><div class="keep"><p class="compare">'+esc("Save the result as a PDF or prepare an email to keep a copy. If you use the callback form, the firm retains the submitted summary for twelve months.")+'</p>'+
     '<div class="actions"><button type="button" class="btn btn-ink" id="pdf">Save as PDF</button><a class="btn btn-line" href="mailto:?subject='+encodeURIComponent(fr("My Unisson result"))+'&body='+encodeURIComponent(summary(true))+'">'+esc("Email me the result")+'</a></div></div></div>';
 
-  html += '<div class="rsec no-print"><h4>Discuss your result</h4><p class="compare">'+esc("The Write button opens a draft addressed to the firm with a summary of your result. You can edit it before sending. You can also request a callback using the form.")+'</p>'+
+  html += '<div class="rsec no-print"><h4>Discuss your result</h4><p class="compare"><b>Acknowledged within one working day, by the lawyer who will handle your matter.</b></p><p class="compare">'+esc("The Write button opens a draft addressed to the firm with a summary of your result. You can edit it before sending. You can also request a callback using the form.")+'</p>'+
     '<div class="contactbox"><code id="mail">'+CONTACT+'</code><a class="btn btn-ink" href="mailto:'+CONTACT+'?subject='+encodeURIComponent(fr("Unisson: discussing my result"))+'&body='+encodeURIComponent(fr("Hello,\n\nI would like to discuss my Unisson result.\n\n")+summary(false))+'">Write</a></div>'+
     '<form class="gate" id="rappel" novalidate>'+
       '<label for="email">'+esc("Be contacted: business email address")+'</label>'+
